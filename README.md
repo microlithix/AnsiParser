@@ -52,7 +52,7 @@ AnsiPrintableChar { Text = o }
 AnsiControlSequence { Parameters = [ 0 ], ControlFunction = m }
 ```
 
-The parsed elements will each be one of the [element types](https://microlithix.github.io/AnsiParser/docs/Elements.md) implementing the `IAnsiStreamParserElement` interface.
+The parsed elements will each be one of the [element types](https://microlithix.github.io/AnsiParser/docs/Elements.html) implementing the `IAnsiStreamParserElement` interface.
 
 ## AnsiStringParser
 
