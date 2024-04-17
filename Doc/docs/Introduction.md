@@ -8,4 +8,6 @@ However, the AnsiParser *Application Programming Interface* (API) defines many n
 
 You can review a [formal description of ANSI character streams](FormalDescription.md) for a detailed understanding of their precise form.
 
+[Repository](https://github.com/microlithix/AnsiParser)
+
 [License](LICENSE.md)
