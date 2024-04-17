@@ -1,4 +1,4 @@
-namespace Microlithic.Text.Ansi;
+namespace Microlithix.Text.Ansi;
 
 ///----------------------------------------------------------------------------
 /// <summary>

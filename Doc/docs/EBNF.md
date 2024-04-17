@@ -37,7 +37,7 @@ Named terminals refer to named objects defined by the API. They are not enclosed
 <item> ::= GraphicRenditionSelector.Underline       ; EBNF
 ```
 
-Here, [GraphicRenditionSelector.Underline](xref:Microlithic.Text.Ansi.GraphicRenditionSelector.Underline) refers to the constant value "4" defined by the API.
+Here, [GraphicRenditionSelector.Underline](xref:Microlithix.Text.Ansi.GraphicRenditionSelector.Underline) refers to the constant value "4" defined by the API.
 
 ### Unicode Terminals
 

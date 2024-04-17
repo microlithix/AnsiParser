@@ -1,6 +1,6 @@
-using Microlithic.Text.Ansi.Element;
+using Microlithix.Text.Ansi.Element;
 
-namespace Microlithic.Text.Ansi;
+namespace Microlithix.Text.Ansi;
 
 ///----------------------------------------------------------------------------
 /// <summary>

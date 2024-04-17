@@ -1,6 +1,6 @@
 # Escape Sequences
 
-Escape sequences are initiated by the presence of the escape control code [ControlCode.ESC](xref:Microlithic.Text.Ansi.ControlCode.ESC) (`"\u001b"`) in the input stream, followed by a character in the range `"\u0020"..."\u007e"`. There are several different types of escape sequences, indentified by the specific character code following the escape control code:
+Escape sequences are initiated by the presence of the escape control code [ControlCode.ESC](xref:Microlithix.Text.Ansi.ControlCode.ESC) (`"\u001b"`) in the input stream, followed by a character in the range `"\u0020"..."\u007e"`. There are several different types of escape sequences, indentified by the specific character code following the escape control code:
 
 ```bnf
 <escape-sequence> ::= <nf-sequence> | <fp-sequence> | <fe-sequence> | <fs-sequence>

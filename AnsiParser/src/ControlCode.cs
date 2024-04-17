@@ -6,9 +6,9 @@
 // as described at https://ecma-international.org/policies/by-ipr/ecma-text-copyright-policy/.
 //================================================================================================
 
-using Microlithic.Text.Ansi.Element;
+using Microlithix.Text.Ansi.Element;
 
-namespace Microlithic.Text.Ansi;
+namespace Microlithix.Text.Ansi;
 
 ///----------------------------------------------------------------------------
 /// <summary>

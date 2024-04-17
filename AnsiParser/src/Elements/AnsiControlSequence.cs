@@ -1,4 +1,4 @@
-namespace Microlithic.Text.Ansi.Element;
+namespace Microlithix.Text.Ansi.Element;
 
 ///----------------------------------------------------------------------------
 /// <summary>
@@ -17,7 +17,7 @@ public record AnsiControlSequence : IAnsiStreamParserElement, IAnsiStringParserE
     /// should initiate when it receives the control sequence. It
     /// consists of a character in the range 0x40-0x7E, optionally
     /// preceded by one or more characters in the range 0x20-0x2F.
-    /// See <see cref="Microlithic.Text.Ansi.ControlFunction"/>
+    /// See <see cref="Microlithix.Text.Ansi.ControlFunction"/>
     /// for a standardized list of control sequence functions.
     /// </summary>
     public string Function { get; init; }

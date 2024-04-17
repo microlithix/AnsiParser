@@ -11,9 +11,9 @@
 //   - Invoke ChangeState() to cause a state transition when necessary.
 //================================================================================================
 
-using Microlithic.Text.Ansi.Element;
+using Microlithix.Text.Ansi.Element;
 
-namespace Microlithic.Text.Ansi;
+namespace Microlithix.Text.Ansi;
 
 internal class StateHandler {
 

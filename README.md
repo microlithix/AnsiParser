@@ -1,5 +1,5 @@
 <!-- markdownlint-disable MD033 -->
-# <img width="10%" title="Logo" alt="Logo" src="./Doc/images/Logo.svg"> Microlithic AnsiParser
+# <img width="10%" title="Logo" alt="Logo" src="./Doc/images/Logo.svg"> Microlithix AnsiParser
 <!-- markdownlint-enable MD033 -->
 
 This package contains modules for parsing character streams and strings with embedded control sequences that conform to ECMA-48 and ANSI X3.64, later adopted as ISO/IEC 6429. Such coded control sequences are commonly referred to as *ANSI escape sequences* or *ANSI escape codes*. These control sequences are often used by terminals, terminal emulators, command shells, and other types of console applications.
@@ -23,8 +23,8 @@ Most of the functionality of the package is available through two classes named 
 Here is a simple example of its usage:
 
 ```csharp
-using Microlithic.Text.Ansi;
-using Microlithic.Text.Ansi.Elements;
+using Microlithix.Text.Ansi;
+using Microlithix.Text.Ansi.Elements;
 
 AnsiStreamParser parser = new(ParsedElementCallback);
 
@@ -63,8 +63,8 @@ The parsed elements will each be one of the [element types](https://microlithix.
 Here is a simple example showing how `AnsiStringParser` can be used:
 
 ```csharp
-using Microlithic.Text.Ansi;
-using Microlithic.Text.Ansi.Elements;
+using Microlithix.Text.Ansi;
+using Microlithix.Text.Ansi.Elements;
 
 AnsiStringParser parser = new();
 

@@ -1,9 +1,9 @@
 using System.Diagnostics;
 
-using Microlithic.Text.Ansi;
-using Microlithic.Text.Ansi.Element;
+using Microlithix.Text.Ansi;
+using Microlithix.Text.Ansi.Element;
 
-namespace Microlithic.Text.Ansi.Tests;
+namespace Microlithix.Text.Ansi.Tests;
 
 public class AnsiStringParserShould {
 

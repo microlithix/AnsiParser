@@ -1,4 +1,4 @@
-namespace Microlithic.Text.Ansi;
+namespace Microlithix.Text.Ansi;
 
 // Extension method for converting a character
 // into a hexadecimal string representation.

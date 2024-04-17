@@ -1,4 +1,4 @@
-namespace Microlithic.Text.Ansi.Element;
+namespace Microlithix.Text.Ansi.Element;
 
 ///----------------------------------------------------------------------------
 /// <summary>
@@ -25,28 +25,28 @@ namespace Microlithic.Text.Ansi.Element;
 ///     </listheader>
 ///     <item>
 ///         <term>
-///             <a href="xref:Microlithic.Text.Ansi.ControlCode.ESC?displayProperty=nameWithType"/>
+///             <a href="xref:Microlithix.Text.Ansi.ControlCode.ESC?displayProperty=nameWithType"/>
 ///             (<c>0x1b</c>)
 ///         </term>
 ///         <description><see cref="AnsiEscapeSequence"/></description>
 ///     </item>
 ///     <item>
 ///         <term>
-///             <a href="xref:Microlithic.Text.Ansi.ControlCode.DCS?displayProperty=nameWithType"/>
+///             <a href="xref:Microlithix.Text.Ansi.ControlCode.DCS?displayProperty=nameWithType"/>
 ///             (0x90)
 ///         </term>
 ///         <description><see cref="AnsiControlStringInitiator"/></description>
 ///     </item>
 ///     <item>
 ///         <term>
-///             <a href="xref:Microlithic.Text.Ansi.ControlCode.SOS?displayProperty=nameWithType"/>
+///             <a href="xref:Microlithix.Text.Ansi.ControlCode.SOS?displayProperty=nameWithType"/>
 ///             (0x98)
 ///         </term>
 ///         <description><see cref="AnsiControlStringInitiator"/></description>
 ///     </item>
 ///     <item>
 ///         <term>
-///             <a href="xref:Microlithic.Text.Ansi.ControlCode.CSI?displayProperty=nameWithType"/>
+///             <a href="xref:Microlithix.Text.Ansi.ControlCode.CSI?displayProperty=nameWithType"/>
 ///             (0x9b)
 ///         </term>
 ///         <description><see cref="AnsiControlSequence"/> or
@@ -54,21 +54,21 @@ namespace Microlithic.Text.Ansi.Element;
 ///     </item>
 ///     <item>
 ///         <term>
-///             <a href="xref:Microlithic.Text.Ansi.ControlCode.OSC?displayProperty=nameWithType"/>
+///             <a href="xref:Microlithix.Text.Ansi.ControlCode.OSC?displayProperty=nameWithType"/>
 ///             (0x9d)
 ///         </term>
 ///         <description><see cref="AnsiControlStringInitiator"/></description>
 ///     </item>
 ///     <item>
 ///         <term>
-///             <a href="xref:Microlithic.Text.Ansi.ControlCode.PM?displayProperty=nameWithType"/>
+///             <a href="xref:Microlithix.Text.Ansi.ControlCode.PM?displayProperty=nameWithType"/>
 ///             (0x9e)
 ///         </term>
 ///         <description><see cref="AnsiControlStringInitiator"/></description>
 ///     </item>
 ///     <item>
 ///         <term>
-///             <a href="xref:Microlithic.Text.Ansi.ControlCode.APC?displayProperty=nameWithType"/>
+///             <a href="xref:Microlithix.Text.Ansi.ControlCode.APC?displayProperty=nameWithType"/>
 ///             (0x9f)
 ///         </term>
 ///         <description><see cref="AnsiControlStringInitiator"/></description>

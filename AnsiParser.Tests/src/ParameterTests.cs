@@ -1,6 +1,6 @@
-using Microlithic.Text.Ansi.Element;
+using Microlithix.Text.Ansi.Element;
 
-namespace Microlithic.Text.Ansi.Tests;
+namespace Microlithix.Text.Ansi.Tests;
 
 public class ParameterShould
 {

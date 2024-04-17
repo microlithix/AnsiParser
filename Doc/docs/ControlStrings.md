@@ -10,7 +10,7 @@ The primary difference between the two types of strings is the set of characters
 
 ## Character Strings
 
-Character strings are the most general type of control string. According to [ECMA-48](References.md#ecma-48), all characters except for [ControlCode.SOS](xref:Microlithic.Text.Ansi.ControlCode.SOS) (`"\u0098"`), [ControlCode.ST](xref:Microlithic.Text.Ansi.ControlCode.ST) (`"\u009c"`), and their corresponding [escape sequence equivalents](EscapeSequences.md#fe-escape-sequences) are permitted in character strings.
+Character strings are the most general type of control string. According to [ECMA-48](References.md#ecma-48), all characters except for [ControlCode.SOS](xref:Microlithix.Text.Ansi.ControlCode.SOS) (`"\u0098"`), [ControlCode.ST](xref:Microlithix.Text.Ansi.ControlCode.ST) (`"\u009c"`), and their corresponding [escape sequence equivalents](EscapeSequences.md#fe-escape-sequences) are permitted in character strings.
 
 > [!IMPORTANT]
 > Here, the implmentation of AnsiStreamParser and AnsiStringParser deviates from the ECMA-48 specification. In addition to disallowing the characters mentioned above, *any* escape sequence and any character in the set `"\u0018", "\u001a", "\u0080"..."\u009f"` will terminate the character string.

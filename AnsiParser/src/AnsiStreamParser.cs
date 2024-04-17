@@ -23,9 +23,9 @@
 // https://en.wikipedia.org/wiki/ANSI_escape_code#Colors
 //=================================================================================================
 
-using Microlithic.Text.Ansi.Element;
+using Microlithix.Text.Ansi.Element;
 
-namespace Microlithic.Text.Ansi;
+namespace Microlithix.Text.Ansi;
 
 internal enum StateId {
 	Ground,

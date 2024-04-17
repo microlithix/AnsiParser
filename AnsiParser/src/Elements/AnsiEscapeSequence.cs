@@ -1,4 +1,4 @@
-namespace Microlithic.Text.Ansi.Element;
+namespace Microlithix.Text.Ansi.Element;
 
 ///----------------------------------------------------------------------------
 /// <summary>

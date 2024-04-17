@@ -1,4 +1,4 @@
-namespace Microlithic.Text.Ansi;
+namespace Microlithix.Text.Ansi;
 
 /// <summary>
 /// The DeviceMode class defines a set of static constants representing

@@ -1,4 +1,4 @@
-namespace Microlithic.Text.Ansi;
+namespace Microlithix.Text.Ansi;
 
 internal class StateHandlerForGround : StateHandler {
     // This is the initial state of the parser. Except for characters

@@ -1,4 +1,4 @@
-namespace Microlithic.Text.Ansi;
+namespace Microlithix.Text.Ansi;
 
 /// <summary>
 /// Create an instance of this record and pass it to the
