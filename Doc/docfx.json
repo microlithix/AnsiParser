@@ -1,0 +1,59 @@
+{
+  "metadata": [
+    {
+      "src": [
+        {
+          "src": "../AnsiParser",
+          "files": [
+            "**/*.csproj"
+          ]
+        }
+      ],
+      "dest": "api",
+      "memberLayout": "separatePages"
+    }
+  ],
+  "build": {
+    "content": [
+      {
+        "files": [
+          "**/*.{md,yml}"
+        ],
+        "exclude": [
+          "_site/**"
+        ]
+      }
+    ],
+    "markdownEngineProperties": {
+      "markdigExtensions": [
+          "Footnotes"
+      ],
+      "plantUml": {
+        "outputFormat": "svg",
+        "remoteUrl": "http://www.plantuml.com/plantuml/",
+        "renderingMode": "remote"
+      }
+    },
+    "output": "_site",
+    "resource": [
+      {
+        "files": [
+          "images/**"
+        ]
+      }
+    ],
+    "template": [
+      "default",
+      "modern"
+    ],
+    "globalMetadata": {
+      "_appName": "AnsiParser",
+      "_appTitle": "AnsiParser",
+      "_appLogoPath": "images/LogoDocfx.svg",
+      "_appFaviconPath": "images/Logo.svg",
+      "_enableSearch": true,
+      "_disableContribution": true,
+      "pdf": false
+    }
+  }
+}

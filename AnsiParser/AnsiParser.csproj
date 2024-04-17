@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <Version>1.0.0</Version>
+    <Product>AnsiParser</Product>
+    <Authors>Microlithic Software</Authors>
+    <Company>Microlithic Software</Company>
+    <Copyright>Copyright (c) Microlithic Software 2024</Copyright>
+    <Title>AnsiParser</Title>
+    <Description>
+      This package contains modules for parsing character streams and strings
+      with embedded control sequences that conform to ECMA-48 and ANSI X3.64,
+      later adopted as ISO/IEC 6429. Such coded control sequences are commonly
+      referred to as *ANSI escape sequences* or *ANSI escape codes*. These
+      control sequences are often used by terminals, terminal emulators,
+      command shells, and other types of console applications.
+    </Description>
+    <PackageId>Microlithic.Text.Ansi.AnsiParser</PackageId>
+    <PackageTags>text;terminal;console;ANSI;escape;control;sequence;parse</PackageTags>
+    <PackageIcon>Logo.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageProjectUrl></PackageProjectUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/microlithicsoft/AnsiParser</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\Doc\images\Logo.png" Pack="true" PackagePath="\"/>
+    <None Include="..\README.md" Pack="true" PackagePath="\"/>
+  </ItemGroup>
+
+</Project>
