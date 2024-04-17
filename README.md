@@ -8,9 +8,9 @@ Note that this package implements a parser only, and its output is a sequence of
 
 However, the API and its associated documentation does define many named constants and other values to assist with the interpretation of the parsed elements in accordance with the higher-level functionality described in ECMA-48. The API documentation in particular will assist you with understanding ECMA-48 and how all of its components fit together.
 
-[Full Documentation](https://microlithicsoft.github.io/AnsiParser/docs/Introduction.html)
+[Full Documentation](https://microlithix.github.io/AnsiParser/docs/Introduction.html)
 
-[License](License.md)
+[License](LICENSE.md)
 
 ## Getting Started
 
@@ -52,7 +52,7 @@ AnsiPrintableChar { Text = o }
 AnsiControlSequence { Parameters = [ 0 ], ControlFunction = m }
 ```
 
-The parsed elements will each be one of the [element types](Elements.md) implementing the `IAnsiStreamParserElement` interface.
+The parsed elements will each be one of the [element types](https://microlithix.github.io/AnsiParser/docs/Elements.md) implementing the `IAnsiStreamParserElement` interface.
 
 ## AnsiStringParser
 
