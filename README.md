@@ -52,13 +52,15 @@ AnsiPrintableChar { Text = o }
 AnsiControlSequence { Parameters = [ 0 ], ControlFunction = m }
 ```
 
-The parsed elements will each be one of the [element types](https://microlithix.github.io/AnsiParser/docs/Elements.html) implementing the `IAnsiStreamParserElement` interface.
+The parsed elements will each be one of the [element types](https://microlithix.github.io/AnsiParser/docs/Elements.html) implementing the `IAnsiStreamParserElement` interface. Strings are returned one character at a time in elements of type `AnsiPrintableChar` or `AnsiControlStringChar`.
+
+Note that the parser preserves its state from one invocation to the next and produces a parsed element only when it has received the complete sequence of characters for that element. Therefore, there isn't a 1-to-1 mapping between invocations of the `Parse()` method and the production of elements. Rather, a single invocation of the `Parse()` method might result in the production zero, one, or two elements depending on the sequence of characters in the input stream.
 
 ## AnsiStringParser
 
 `AnsiStringParser` parses an entire string on each invocation of its `Parse(System.String)` method. It expects the strings to be encoded in UTF-16 format, which is the standard string encoding format for the .NET `System.String` type. It should generally also work with 7 and 8-bit codes that conform to ECMA-35.
 
-`AnsiStringParser` uses an internal instance of `AnsiStreamParser` for its low-level parsing functionality. Unlike `AnsiStreamParser`, `AnsiStringParser` returns a list of element records rather than invoking a callback function for each element. Furthermore, the printable characters and the characters in control strings are consolidated into strings of characters returned in element records of type `AnsiPrintableString` and `AnsiControlString`, rather than being returned one character at a time.
+`AnsiStringParser` uses an internal instance of `AnsiStreamParser` for its low-level parsing functionality. Unlike `AnsiStreamParser`, `AnsiStringParser` returns a list of elements rather than invoking a callback function for each element. Furthermore, the printable characters and the characters in control strings are consolidated into strings of characters returned in elements of type `AnsiPrintableString` and `AnsiControlString`, rather than being returned one character at a time.
 
 Here is a simple example showing how `AnsiStringParser` can be used:
 

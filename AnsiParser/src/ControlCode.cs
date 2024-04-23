@@ -15,8 +15,8 @@ namespace Microlithix.Text.Ansi;
 /// Standardized control codes defined in ECMA-48.
 /// </summary>
 /// <remarks>
-/// These constants include all C0 (0x00-0x1F) and C1 (0x80-0x9F) control
-/// codes, plus the code 0x7F (DEL) which acts like a control code.
+/// These constants include all C0 (0x00-0x1f) and C1 (0x80-0x9f) control
+/// codes, plus the code 0x7f (DEL) which acts like a control code.
 /// </remarks>
 ///----------------------------------------------------------------------------
 public static class ControlCode {
@@ -179,7 +179,7 @@ public static class ControlCode {
     /// the corresponding character position of the following line in the data component.
     /// </para>
     /// </remarks>
-    public const char LF  = '\u000A';
+    public const char LF  = '\u000a';
 
     /// <summary>
     /// Line/vertical tabulation
@@ -190,27 +190,27 @@ public static class ControlCode {
     /// <para>
     /// </para>
     /// </remarks>
-    public const char VT  = '\u000B';
+    public const char VT  = '\u000b';
 
     /// <summary>
     /// Form feed
     /// </summary>
-    public const char FF  = '\u000C';
+    public const char FF  = '\u000c';
 
     /// <summary>
     /// Carriage return
     /// </summary>
-    public const char CR  = '\u000D';
+    public const char CR  = '\u000d';
 
     /// <summary>
     /// Shift out
     /// </summary>
-    public const char SO  = '\u000E';
+    public const char SO  = '\u000e';
 
     /// <summary>
     /// Shift in
     /// </summary>
-    public const char SI  = '\u000F';
+    public const char SI  = '\u000f';
 
     /// <summary>
     /// Data link escape
@@ -265,32 +265,32 @@ public static class ControlCode {
     /// <summary>
     /// Substitute
     /// </summary>
-    public const char SUB = '\u001A';
+    public const char SUB = '\u001a';
 
     /// <summary>
     /// Escape
     /// </summary>
-    public const char ESC = '\u001B';
+    public const char ESC = '\u001b';
 
     /// <summary>
     /// File separator
     /// </summary>
-    public const char FS  = '\u001C';
+    public const char FS  = '\u001c';
 
     /// <summary>
     /// Group separator
     /// </summary>
-    public const char GS  = '\u001D';
+    public const char GS  = '\u001d';
 
     /// <summary>
     /// Record separator
     /// </summary>
-    public const char RS  = '\u001E';
+    public const char RS  = '\u001e';
 
     /// <summary>
     /// Unit separator
     /// </summary>
-    public const char US  = '\u001F';
+    public const char US  = '\u001f';
 
     /// <summary>
     /// Delete character
@@ -299,9 +299,9 @@ public static class ControlCode {
     /// Not a C0 or C1 control code, but acts more
     /// like a control code than a printable character.
     /// </remarks>
-    public const char DEL = '\u007F';
+    public const char DEL = '\u007f';
 
-    // C1 control codes: 0x80-0x9F
+    // C1 control codes: '\u0080'...'\u009f'
 
     /// <summary>
     /// Padding character
@@ -356,32 +356,32 @@ public static class ControlCode {
     /// <summary>
     /// Line/vertical tabulation set
     /// </summary>
-    public const char VTS = '\u008A';
+    public const char VTS = '\u008a';
 
     /// <summary>
     /// Partial line forward/down
     /// </summary>
-    public const char PLD = '\u008B';
+    public const char PLD = '\u008b';
 
     /// <summary>
     /// Partial line backward/up
     /// </summary>
-    public const char PLU = '\u008C';
+    public const char PLU = '\u008c';
 
     /// <summary>
     /// Reverse line feed/index
     /// </summary>
-    public const char RI  = '\u008D';
+    public const char RI  = '\u008d';
 
     /// <summary>
     /// Single-shift 2
     /// </summary>
-    public const char SS2 = '\u008E';
+    public const char SS2 = '\u008e';
 
     /// <summary>
     /// Single-shift 3
     /// </summary>
-    public const char SS3 = '\u008F';
+    public const char SS3 = '\u008f';
 
     /// <summary>
     /// Device control string
@@ -390,7 +390,7 @@ public static class ControlCode {
     /// <para>
     /// DCS is used as the opening delimiter of a control string for
     /// device control use. The command string following may consist
-    /// of bit combinations in the range 0x08 to 0x0E and 0x20 to 0x7E.
+    /// of bit combinations in the range 0x08 to 0x0e and 0x20 to 0x7e.
     /// The control string is closed by the terminating delimiter
     /// <c>STRING TERMINATOR</c> (<see cref="ST"/>).
     /// </para>
@@ -453,30 +453,30 @@ public static class ControlCode {
     /// <summary>
     /// Single character introducer
     /// </summary>
-    public const char SCI = '\u009A';
+    public const char SCI = '\u009a';
 
     /// <summary>
     /// Control sequence introducer
     /// </summary>
-    public const char CSI = '\u009B';
+    public const char CSI = '\u009b';
 
     /// <summary>
     /// String terminator
     /// </summary>
-    public const char ST  = '\u009C';
+    public const char ST  = '\u009c';
 
     /// <summary>
     /// Operating system command
     /// </summary>
-    public const char OSC = '\u009D';
+    public const char OSC = '\u009d';
 
     /// <summary>
     /// Privacy message
     /// </summary>
-    public const char PM  = '\u009E';
+    public const char PM  = '\u009e';
 
     /// <summary>
     /// Application program command
     /// </summary>
-    public const char APC = '\u009F';
+    public const char APC = '\u009f';
 }

@@ -15,8 +15,8 @@ public record AnsiControlSequence : IAnsiStreamParserElement, IAnsiStringParserE
     /// The Function property determines how the Parameters should be
     /// interpreted, and the actions that the consuming application
     /// should initiate when it receives the control sequence. It
-    /// consists of a character in the range 0x40-0x7E, optionally
-    /// preceded by one or more characters in the range 0x20-0x2F.
+    /// consists of a character in the range 0x40-0x7e, optionally
+    /// preceded by one or more characters in the range 0x20-0x2f.
     /// See <see cref="Microlithix.Text.Ansi.ControlFunction"/>
     /// for a standardized list of control sequence functions.
     /// </summary>
@@ -24,24 +24,24 @@ public record AnsiControlSequence : IAnsiStreamParserElement, IAnsiStringParserE
 
     /// <summary>
     /// A list of zero or more <see cref="Parameter"/>
-    /// records parsed from the control sequence.
+    /// instances parsed from the control sequence.
     /// </summary>
     public IList<Parameter> Parameters { get; init; }
 
     /// <summary>
-    /// Creates a new <see cref="AnsiControlSequence"/> record
+    /// Creates a new <see cref="AnsiControlSequence"/> instance
     /// from a function string and a list of parameters.
     /// </summary>
     /// 
     /// <param name="function">
     /// Specifies the control sequence function to be performed.
     /// This string must consist of zero or more optional characters in the
-    /// range 0x20-0x2F, followed by exactly one character in the range
-    /// 0x40-0x7E. See <see cref="ControlFunction"/> for a standardardized
+    /// range 0x20-0x2f, followed by exactly one character in the range
+    /// 0x40-0x7e. See <see cref="ControlFunction"/> for a standardardized
     /// list of control sequence functions.
     /// </param>
     /// <param name="parameters">
-    /// A list of zero or more <see cref="Parameter"/> records.
+    /// A list of zero or more <see cref="Parameter"/> instances.
     /// </param>
     public AnsiControlSequence(string function, IList<Parameter> parameters) {
         Function = function;
@@ -49,15 +49,15 @@ public record AnsiControlSequence : IAnsiStreamParserElement, IAnsiStringParserE
     }
 
     /// <summary>
-    /// Creates a new <see cref="AnsiControlSequence"/> record from
+    /// Creates a new <see cref="AnsiControlSequence"/> instance from
     /// a function string and variable number of parameters.
     /// </summary>
     /// 
     /// <param name="function">
     /// Specifies the control sequence function to be performed.
     /// This string must consist of zero or more optional characters in the
-    /// range 0x20-0x2F, followed by exactly one character in the range
-    /// 0x40-0x7E. See <see cref="ControlFunction"/> for a standardardized
+    /// range 0x20-0x2f, followed by exactly one character in the range
+    /// 0x40-0x7e. See <see cref="ControlFunction"/> for a standardardized
     /// list of control sequence functions.
     /// </param>
     /// <param name="parameters">
@@ -89,12 +89,12 @@ public record AnsiControlSequence : IAnsiStreamParserElement, IAnsiStringParserE
     }
 
     /// <summary>
-    /// Returns a copy of this record with any legacy SGR parameters
+    /// Returns a copy of this element with any legacy SGR parameters
     /// converted to standard SGR parameters.
     /// </summary>
     /// 
     /// <returns>
-    /// A copy of this <see cref="AnsiControlSequence"/> record with any
+    /// A copy of this <see cref="AnsiControlSequence"/> element with any
     /// <see href="..\docs\ControlSequences.md#legacy-sgr-parameters">
     /// legacy SGR parameters</see> converted to
     /// <see href="..\docs\ControlSequences.md#select-graphic-rendition">
@@ -102,7 +102,7 @@ public record AnsiControlSequence : IAnsiStreamParserElement, IAnsiStringParserE
     /// </returns>
     /// 
     /// <remarks>
-    /// Returns the unmodified original record if the control sequence
+    /// Returns the unmodified original element if the control sequence
     /// is not a Select Graphic Rendition
     /// (<see cref="ControlFunction.SGR">ControlFunction.SGR</see>) sequence,
     /// or if the control sequence doesn't contain

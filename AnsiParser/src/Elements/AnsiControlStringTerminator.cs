@@ -13,7 +13,7 @@ public record AnsiControlStringTerminator : IAnsiStreamParserElement {
 
     /// <summary>
     /// Creates a new <see cref="AnsiControlStringTerminator"/>
-    /// record for the specified string type.
+    /// instance for the specified string type.
     /// </summary>
     /// 
     /// <param name="type">

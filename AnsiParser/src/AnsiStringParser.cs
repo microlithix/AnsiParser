@@ -20,9 +20,9 @@ namespace Microlithix.Text.Ansi;
 /// 
 /// <remarks>
 /// The UTF-16 character strings to be parsed may contain printable text,
-/// control codes, and ANSI escape sequences. They will be parsed into a
-/// stream of <see cref="IAnsiStringParserElement"/> instances suitable for
-/// consumption by applications such as terminal emulators.
+/// control codes, and ANSI escape sequences. They will be parsed into
+/// <see href="../docs/Elements.md">elements</see> implementing the
+/// <see cref="IAnsiStringParserElement"/> interface.
 /// 
 /// Note that this module implements a parser only, and not an interpreter.
 /// The interpretation of the elements is domain-dependent and left to the
@@ -76,7 +76,7 @@ public class AnsiStringParser {
 	///........................................................................
 	/// <summary>
 	/// Parses a string into an ordered list of
-    /// <see cref="IAnsiStringParserElement"/> records.
+    /// <see href="../docs/Elements.md">elements</see>.
 	/// </summary>
     /// 
 	/// <param name="text">
@@ -84,8 +84,9 @@ public class AnsiStringParser {
 	/// </param>
     /// 
 	/// <returns>
-	/// An ordered list of records representing the printable text strings,
-    /// control codes, and escape sequences found in the string.
+	/// An ordered list of <see href="../docs/Elements.md">elements</see>
+    /// representing the printable text strings, control codes, and escape
+    /// sequences found in the string.
 	/// </returns>
     /// 
 	/// <remarks>
@@ -97,26 +98,28 @@ public class AnsiStringParser {
         ClearOutput();
 	    foreach (char ch in text) parser.Parse(ch);
         return Consolidate();
-	}
+    }
 
 	///........................................................................
     /// <summary>
-    /// Converts a list of parsed element records into a string containing
-    /// only the printable characters.
+    /// Converts a list of parsed <see href="../docs/Elements.md">elements</see>
+    /// into a string containing only the printable characters.
     /// </summary>
     /// 
     /// <param name="elements">
-    /// A list holding the records to convert.
+    /// A list holding the <see href="../docs/Elements.md">elements</see>
+    /// to convert.
     /// </param>
     /// 
     /// <returns>
-    /// A string containing only the printable characters from the input records.
+    /// A string containing only the printable characters from the
+    /// input elements.
     /// </returns>
     /// 
     /// <remarks>
-    /// All of the control codes and escape sequences in list of input records
-    /// are ignored. But note that the DEL character (0x7F) is considered to
-    /// be printable.
+    /// All of the control codes and escape sequences in the list of elements
+    /// are ignored. Note that the DEL character (<c>0x7f</c>) is considered
+    /// to be printable, so it will be retained in the returned string.
     /// </remarks>
     /// ........................................................................
 	public static string PrintableString(List<IAnsiStringParserElement> elements) {

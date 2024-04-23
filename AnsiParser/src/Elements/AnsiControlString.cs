@@ -18,7 +18,7 @@ public record AnsiControlString : IAnsiStringParserElement {
 
     /// <summary>
     /// Creates a new <see cref="AnsiControlString"/>
-    /// record with the specified string type and content.
+    /// instance with the specified string type and content.
     /// </summary>
     /// 
     /// <param name="type">

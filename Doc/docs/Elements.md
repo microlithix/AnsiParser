@@ -1,10 +1,10 @@
-# Element Types
+# Elements
 
-Both <xref:Microlithix.Text.Ansi.AnsiStreamParser> and <xref:Microlithix.Text.Ansi.AnsiStringParser> parse character streams and strings into element records holding a structured representation of the input. All of the element record types are defined in the <xref:Microlithix.Text.Ansi.Element> namespace and each implements one or both of the <xref:Microlithix.Text.Ansi.Element.IAnsiStreamParserElement> and <xref:Microlithix.Text.Ansi.Element.IAnsiStringParserElement> interfaces.
+Both <xref:Microlithix.Text.Ansi.AnsiStreamParser> and <xref:Microlithix.Text.Ansi.AnsiStringParser> parse character streams and strings into elements holding a structured representation of the input. All of the element types are defined in the <xref:Microlithix.Text.Ansi.Element> namespace and each implements one or both of the <xref:Microlithix.Text.Ansi.Element.IAnsiStreamParserElement> and <xref:Microlithix.Text.Ansi.Element.IAnsiStringParserElement> interfaces.
 
 Elements implementing the <xref:Microlithix.Text.Ansi.Element.IAnsiStreamParserElement> interface are produced by instances of <xref:Microlithix.Text.Ansi.AnsiStreamParser>, while elements implementing the <xref:Microlithix.Text.Ansi.Element.IAnsiStringParserElement> interface are produced by instances of <xref:Microlithix.Text.Ansi.AnsiStringParser>.
 
-Here is a summary table showing the different types of element records that can be produced:
+Here is a summary table showing the different types of elements that can be produced:
 
 Element Type | <xref:Microlithix.Text.Ansi.Element.IAnsiStreamParserElement> | <xref:Microlithix.Text.Ansi.Element.IAnsiStringParserElement>
 -----------------------------------------------------------------|:--------:|:-------:

@@ -38,12 +38,12 @@ public class AnsiStringParserShould {
     public void Parse_PrintableString() {
         // Check for proper handling of 7-bit ASCII,
         // extended ASCII, and UTF-16 characters.
-        var result = parser.Parse("A \x7F\xEA\u0102");
+        var result = parser.Parse("A \x7f\xea\u0102");
         var expected = new List<IAnsiStringParserElement> {
-            new AnsiPrintableString("A \x7FêĂ")
+            new AnsiPrintableString("A \x7fêĂ")
         };
         Assert.Equal(expected, result);
-        Assert.Equal("A \x7FêĂ", AnsiStringParser.PrintableString(result));
+        Assert.Equal("A \x7fêĂ", AnsiStringParser.PrintableString(result));
     }
 
     [Fact]
@@ -99,8 +99,8 @@ public class AnsiStringParserShould {
     [Fact]
     public void Parse_EscapenF() {
         // An nF Escape sequence is ESC followed
-        // by any number of characters in the range 0x20-0x2F
-        // followed by a character in the range 0x30-0x7E.
+        // by any number of characters in the range 0x20-0x2f
+        // followed by a character in the range 0x30-0x7e.
         var result = parser.Parse($"{ControlCode.ESC} !\"#$%&'()*+,-./@");
         var expected = new List<IAnsiStringParserElement>() {
             new AnsiEscapeSequence('@', " !\"#$%&'()*+,-./"),
@@ -111,7 +111,7 @@ public class AnsiStringParserShould {
     [Fact]
     public void Parse_EscapeFp() {
         // An Fp Escape sequence is ESC followed
-        // by a character in the range 0x30-0x3F.
+        // by a character in the range 0x30-0x3f.
         var result = parser.Parse(
             $"{ControlCode.ESC}0" +
             $"{ControlCode.ESC}7" + 
@@ -129,7 +129,7 @@ public class AnsiStringParserShould {
     [Fact]
     public void Parse_EscapeFe() {
         // An Fp Escape sequence is ESC followed
-        // by a character in the range 0x40-0x5F.
+        // by a character in the range 0x40-0x5f.
         var result = parser.Parse(
             $"{ControlCode.ESC}@" +
             $"{ControlCode.ESC}Z");
@@ -143,7 +143,7 @@ public class AnsiStringParserShould {
     [Fact]
     public void Parse_EscapeFs() {
         // An Fs Escape sequence is ESC followed
-        // by a character in the range 0x60-0x7E.
+        // by a character in the range 0x60-0x7e.
         var result = parser.Parse(
             $"{ControlCode.ESC}`" +
             $"{ControlCode.ESC}~");
@@ -317,7 +317,7 @@ public class AnsiStringParserShould {
     [Fact]
     public void Parse_StringSplitByControlCharacter() {
         // Control characters embedded in normal text should flush out
-        // the print buffer via an AnsiString record and then
+        // the print buffer via an AnsiString element and then
         // execute immediately. Processing should then continue
         // normally from the ground state.
         var result = parser.Parse($"ABC{ControlCode.BEL}DEF");
@@ -402,7 +402,7 @@ public class AnsiStringParserShould {
     [InlineData(ControlCode.US)]
     public void Parse_CommandStringsWithDisallowedC0Codes(char code) {
         // Disallowed C0 control codes should terminate the command string.
-        // The code 0x7F (DEL) should be ignored. Check only the edge cases.
+        // The code 0x7f (DEL) should be ignored. Check only the edge cases.
         var result = parser.Parse(
             $"{ControlCode.DCS}DCS{ControlCode.DEL}{code}1{ControlCode.ST}" +
             $"{ControlCode.ESC}PDCS{ControlCode.DEL}{code}2{ControlCode.ST}" +

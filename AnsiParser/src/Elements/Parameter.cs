@@ -8,26 +8,26 @@ namespace Microlithix.Text.Ansi.Element;
 /// <remarks>
 /// <para>
 /// As defined in ECMA-48, a control sequence may contain a string of
-/// characters in the range 0x30-0x3F representing one or more parameters
-/// for the control function. Such a string is referred to as the parameter
-/// string.
+/// characters in the range <c>0x30</c>...<c>0x3f</c> representing one or more
+/// parameters for the control function. Such a string is referred to as the
+/// parameter string.
 /// 
-/// If the parameter string begins with a character in the range 0x3C-0x3F,
-/// then it is for private or experimental use and not defined in ECMA-48.
-/// If, on the other hand, the parameter string begins with a character in
-/// the range 0x30-0x3B, then it is a standardized parameter string.
+/// If the parameter string begins with a character in the range
+/// <c>0x3c</c>...<c>0x3f</c>, then it is for private or experimental use
+/// and not defined in ECMA-48. If, on the other hand, the parameter string
+/// begins with a character in the range <c>0x30</c>...<c>0x3b</c>, then it
+/// is a standardized parameter string.
 /// 
 /// A standardized parameter string may be divided into parameter sub-strings
 /// by the semi-colon (;) character, with each parameter sub-string
 /// representing one parameter for the control function. Each parameter
-/// sub-string will be parsed into one instance of this <see cref="Parameter"/>
-/// record type.
+/// sub-string will be parsed into one <see cref="Parameter"/> instance.
 /// 
 /// Each parameter sub-string may be further divided into parts separated
 /// by the colon (:) character, where each part consists of a sequence of
 /// decimal digits representing a positive integer value.
 /// 
-/// A <see cref="Parameter"/> record represents a single parameter parsed
+/// A <see cref="Parameter"/> instance represents a single parameter parsed
 /// from a single parameter sub-string into its separate integer parts.
 /// 
 /// Control sequences can contain multiple parameters
@@ -45,7 +45,7 @@ namespace Microlithix.Text.Ansi.Element;
 /// Any part missing from the control sequence should be
 /// interpreted as having an application-defined default value.
 /// Such missing parts are represented in the <see cref="Parameter"/>
-/// record with a value of -1.
+/// instance with a value of -1.
 /// </para>
 /// <para>
 /// Note that ECMA-48 refers to the parameter sub-parts as "parameter
@@ -75,7 +75,7 @@ public record Parameter {
     public int Value => GetPart(0);
 
     /// <summary>
-    /// Creates a new <see cref="Parameter"/> record
+    /// Creates a new <see cref="Parameter"/> instance
     /// from a specified list of parts, where each part
     /// is either a positive integer, or a value of -1
     /// indicating that the part should be interpreted
@@ -88,7 +88,7 @@ public record Parameter {
     public Parameter(params int[] part) { Parts = new List<int>(part); }
 
     /// <summary>
-    /// Creates a new <see cref="Parameter"/> record
+    /// Creates a new <see cref="Parameter"/> instance
     /// with a single part having a value of -1, indicating
     /// that the parameter should be interpreted as having an
     /// application-defined default value.

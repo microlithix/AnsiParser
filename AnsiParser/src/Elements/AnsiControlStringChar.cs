@@ -7,8 +7,8 @@ namespace Microlithix.Text.Ansi.Element;
 /// 
 /// <remarks>
 /// The consuming application should accumulate or process
-/// <see cref="AnsiControlStringChar"/> records until it receives
-/// a <see cref="AnsiControlStringTerminator"/> record.
+/// <see cref="AnsiControlStringChar"/> elements until it receives
+/// a <see cref="AnsiControlStringTerminator"/> element.
 /// </remarks>
 ///----------------------------------------------------------------------------
 public record AnsiControlStringChar : IAnsiStreamParserElement {
@@ -25,7 +25,7 @@ public record AnsiControlStringChar : IAnsiStreamParserElement {
 
     /// <summary>
     /// Creates a new <see cref="AnsiControlStringChar"/>
-    /// record with the specified string type and character.
+    /// instance with the specified string type and character.
     /// </summary>
     /// 
     /// <param name="type">

@@ -6,9 +6,9 @@ namespace Microlithix.Text.Ansi.Element;
 /// </summary>
 /// 
 /// <remarks>
-/// The consuming application should expect this record to be
-/// followed by zero or more <see cref="AnsiControlStringChar"/> records
-/// and a single <see cref="AnsiControlStringTerminator"/> record.
+/// The consuming application should expect this element to be
+/// followed by zero or more <see cref="AnsiControlStringChar"/> elements
+/// and a single <see cref="AnsiControlStringTerminator"/> element.
 /// </remarks>
 ///----------------------------------------------------------------------------
 public record AnsiControlStringInitiator : IAnsiStreamParserElement {
@@ -20,7 +20,7 @@ public record AnsiControlStringInitiator : IAnsiStreamParserElement {
 
     /// <summary>
     /// Creates a new <see cref="AnsiControlStringInitiator"/>
-    /// record for the specified string type.
+    /// instance for the specified string type.
     /// </summary>
     /// 
     /// <param name="type">

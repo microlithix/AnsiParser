@@ -7,8 +7,8 @@ namespace Microlithix.Text.Ansi.Element;
 /// </summary>
 ///
 /// <remarks>
-/// <see cref="AnsiStringParser"/> instances produce lists of records
-/// that each implement this interface. These records hold either a single
+/// <see cref="AnsiStringParser"/> instances produce lists of elements
+/// that each implement this interface. These elements hold either a single
 /// control or escape sequence, or a string consisting of one or more
 /// characters that appear consecutively in a printable string or a
 /// control string parsed from the input.

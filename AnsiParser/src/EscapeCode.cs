@@ -71,32 +71,32 @@ public static class EscapeCode {
     /// <summary>
     /// Line/vertical tabulation set
     /// </summary>
-    public const char VTS = '\u004A';
+    public const char VTS = '\u004a';
 
     /// <summary>
     /// Partial line forward/down
     /// </summary>
-    public const char PLD = '\u004B';
+    public const char PLD = '\u004b';
 
     /// <summary>
     /// Partial line backward/up
     /// </summary>
-    public const char PLU = '\u004C';
+    public const char PLU = '\u004c';
 
     /// <summary>
     /// Reverse line feed/index
     /// </summary>
-    public const char RI  = '\u004D';
+    public const char RI  = '\u004d';
 
     /// <summary>
     /// Single-shift 2
     /// </summary>
-    public const char SS2 = '\u004E';
+    public const char SS2 = '\u004e';
 
     /// <summary>
     /// Single-shift 3
     /// </summary>
-    public const char SS3 = '\u004F';
+    public const char SS3 = '\u004f';
 
     /// <summary>
     /// Device control string
@@ -105,7 +105,7 @@ public static class EscapeCode {
     /// <para>
     /// DCS is used as the opening delimiter of a control string for
     /// device control use. The command string following may consist
-    /// of bit combinations in the range 0x08 to 0x0E and 0x20 to 0x7E.
+    /// of bit combinations in the range 0x08 to 0x0e and 0x20 to 0x7e.
     /// The control string is closed by the terminating delimiter
     /// <c>STRING TERMINATOR</c> (<see cref="ST"/>).
     /// </para>
@@ -168,30 +168,30 @@ public static class EscapeCode {
     /// <summary>
     /// Single character introducer
     /// </summary>
-    public const char SCI = '\u005A';
+    public const char SCI = '\u005a';
 
     /// <summary>
     /// Control sequence introducer
     /// </summary>
-    public const char CSI = '\u005B';
+    public const char CSI = '\u005b';
 
     /// <summary>
     /// String terminator
     /// </summary>
-    public const char ST  = '\u005C';
+    public const char ST  = '\u005c';
 
     /// <summary>
     /// Operating system command
     /// </summary>
-    public const char OSC = '\u005D';
+    public const char OSC = '\u005d';
 
     /// <summary>
     /// Privacy message
     /// </summary>
-    public const char PM  = '\u005E';
+    public const char PM  = '\u005e';
 
     /// <summary>
     /// Application program command
     /// </summary>
-    public const char APC = '\u005F';
+    public const char APC = '\u005f';
 }

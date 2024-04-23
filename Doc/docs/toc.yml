@@ -16,11 +16,11 @@
   href: ControlStrings.md
 - name: Formal Description
   href: FormalDescription.md
+- name: State Diagram
+  href: StateDiagram.md
 - name: LICENSE
   href: LICENSE.md
 - name: References
   href: References.md
 - name: Appendix 1 - Notation
   href: Notation.md
-- name: Appendix 2 - EBNF
-  href: EBNF.md

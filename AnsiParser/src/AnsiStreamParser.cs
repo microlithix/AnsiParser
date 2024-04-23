@@ -11,11 +11,11 @@
 // https://vt100.net/emu/dec_ansi_parser
 //
 // The referenced implementation assumes that characters are single bytes, and it treats
-// characters in the range 0xA0-0xFF identically to characters in the range 0x20-0x7F.
-// In other words, it ignores the high-order bit for characters above 0x9F.
+// characters in the range 0xa0-0xff identically to characters in the range 0x20-0x7f.
+// In other words, it ignores the high-order bit for characters above 0x9f.
 //
 // The present implementation assumes that characters are 16-bit words with UTF-16 encoding.
-// It therefore treats all characters above 0x9F as printable characters only.
+// It therefore treats all characters above 0x9f as printable characters only.
 //
 // Other references:
 // https://invisible-island.net/xterm/ctlseqs/ctlseqs.html
@@ -29,15 +29,15 @@ namespace Microlithix.Text.Ansi;
 
 internal enum StateId {
 	Ground,
-	Escape,
+	EscapeEntry,
 	EscapeIntermediate,
-	CsiEntry,
-	CsiIgnore,
-	CsiIntermediate,
-	CsiParam,
-	CsiPrivateParam,
 	CommandString,
 	CharacterString,
+	ControlSequenceEntry,
+	ControlSequenceParameter,
+	ControlSequencePrivateParameter,
+	ControlSequenceIntermediate,
+	ControlSequenceIgnore,
 }
 
 ///----------------------------------------------------------------------------
@@ -48,10 +48,9 @@ internal enum StateId {
 ///
 /// <remarks>
 /// The UTF-16 character input stream may contain printable text, control
-/// codes, and ANSI escape sequences. It will be parsed into a stream of
+/// codes, and ANSI escape sequences. It will be parsed into
 /// <see href="../docs/Elements.md">elements</see> implementing the
-/// <see cref="IAnsiStreamParserElement"/> interface suitable for
-/// consumption by applications such as terminal emulators.
+/// <see cref="IAnsiStreamParserElement"/> interface.
 /// 
 /// Note that this module implements a parser only, and not an interpreter.
 /// The interpretation of the elements is domain-dependent and left to the
@@ -157,7 +156,7 @@ public class AnsiStreamParser {
 	/// </remarks>
 	///........................................................................
 	public void Reset() {
-		Clear();
+		NewSequence();
 		currentStateHandler = groundStateHandler;
 	}
 
@@ -165,8 +164,8 @@ public class AnsiStreamParser {
 	/// <summary>
 	/// Parses a single character.
     /// 
-    /// The output will be sent to the callback method provided to the
-    /// constructor.
+    /// Any produced <see href="../docs/Elements.md">elements</see> will be
+    /// sent to the callback method provided to the constructor.
 	/// </summary>
     /// 
 	/// <param name="ch">
@@ -179,17 +178,17 @@ public class AnsiStreamParser {
     /// </exception>
     /// 
     /// <remarks>
-    /// Call this method repeatedly with a stream of characters to generate
-    /// an ordered list of <see cref="IAnsiStreamParserElement"/> records
+    /// Call this method once for each character in an input stream in order
+    /// to parse the stream into <see href="../docs/Elements.md">elements</see>
     /// representing printable text strings, control codes, and escape
-    /// sequences in the character stream.
+    /// sequences.
     /// 
     /// A callback method needs to have been provided to the constructor
     /// when the <see cref="AnsiStreamParser"/> instance was created.
     /// 
-    /// The callback method is invoked once for each generated record.
-    /// Note that a single call to this method may result in the generation
-    /// of zero, one, or more records and callback invocations.
+    /// The callback method is invoked once for each produced element.
+    /// Note that a single call to this method may result in the production
+    /// of zero, one, or more elements and callback invocations.
 	///
 	/// The character will be parsed in the context of any character
 	/// stream already received by prior invocations of this method.
@@ -206,25 +205,26 @@ public class AnsiStreamParser {
 	/// <summary>
 	/// Parses a single character.
     /// 
-	/// The output will be sent to the provided callback method.
+	/// Any produced <see href="../docs/Elements.md">elements</see> will be
+    /// sent to the provided callback method.
 	/// </summary>
     /// 
 	/// <param name="callback">
-    /// The function to receive the parsed results
+    /// The function to receive the parsed elements
     /// </param>
 	/// <param name="ch">
     /// The UTF-16 character to be parsed
     /// </param>
     /// 
 	/// <remarks>
-    /// Call this method repeatedly with a stream of characters to generate
-    /// an ordered list of <see cref="IAnsiStreamParserElement"/> records
+    /// Call this method once for each character in an input stream in order
+    /// to parse the stream into <see href="../docs/Elements.md">elements</see>
     /// representing printable text strings, control codes, and escape
-    /// sequences in the character stream.
+    /// sequences.
     /// 
-    /// The callback method is invoked once for each generated record.
-    /// Note that a single call to this method may result in the generation
-    /// of zero, one, or more records and callback invocations.
+    /// The callback method is invoked once for each produced element.
+    /// Note that a single call to this method may result in the production
+    /// of zero, one, or more elements and callback invocations.
 	///
 	/// The character will be parsed in the context of the character
 	/// stream already received by prior invocations of this method.
@@ -274,10 +274,10 @@ public class AnsiStreamParser {
 
 	// Internal Actions
 
-	internal void Clear() {
-		// Drops any accumulated private flag, intermediate characters,
-		// final character, and parameters in order to reset the parser
-		// on entry into the Escape, CsiEntry, and DcsEntry states.
+	internal void NewSequence() {
+		// Drops any accumulated private flag, intermediate
+		// characters,final character, and parameters in order
+		// to prepare the parser to receive a new sequence.
 		// This action will flush out any lingering data from erroneous
 		// control sequences that weren't terminated properly.
 		intermediateChars = "";
@@ -286,13 +286,13 @@ public class AnsiStreamParser {
 		stringType = ControlStringType.StartOfString;
 	}
 
-	internal void Collect(char ch) {
-		// Accumulates any private marker and intermediate characters
-		// for later use.
+	internal void Intermediate(char ch) {
+		// Accumulates any private marker and
+		// intermediate characters for later use.
 		intermediateChars += ch;
 	}
 
-	internal void Param(char ch) {
+	internal void Parameter(char ch) {
 		// Parse a character from a parameter sequence.
 		
 		// <parameter sequence> := <parameter>[;<parameter>]
@@ -308,7 +308,7 @@ public class AnsiStreamParser {
 		// parameter value should be set to a default value.
 
 		// The 'ch' parameter must contain a decimal digit, a colon, or a semicolon.
-		if (ch < (char)0x30 || ch > (char)0x3B) return;
+		if (ch < '\u0030' || ch > '\u003b') return;
 
 		if (parameters.Count < 1) {
 			// Create the first parameter, initialized with a single
@@ -349,36 +349,37 @@ public class AnsiStreamParser {
 		parameter.Parts[j] = parameter.Parts[j] * 10 + ch - '0';
 	}
 
-	internal void PrivateParam(char ch ) {
+	internal void PrivateParameter(char ch ) {
 		// Parse a character from a private parameter sequence.
 		privateParameters += ch;
 	}
 
-	// Actions that generate element records.
+	// Actions that produce elements.
 
-	internal void Execute(char ch) {
-		// Executes a C0 or C1 control function.
-		// These control function take no parameters.
-		Emit(new AnsiSolitaryControlCode(ch));
-	}
-
-	internal void Print(char ch) {
-		// Displays a character glyph.
+	internal void DispatchChar(char ch) {
+		// Produce an element containing a single displayable character.
 		// Occurs only in the ground state outside of any escape sequences.
-		Clear();
+		NewSequence();
 		Emit(new AnsiPrintableChar(ch));
 	}
 
-	internal void EscDispatch(char ch) {
-		// The final character of an escape sequence has arrived, so determine
-		// the control function to be executed from the intermediate character(s)
-		// and final character, and execute it. The intermediate characters are
-		// available because Collect() stored them as they arrived.
+	internal void DispatchCtl(char ch) {
+		// Produce an element containing
+		// a solitary C0 or C1 control code.
+		Emit(new AnsiSolitaryControlCode(ch));
+	}
+
+	internal void DispatchEsc(char ch) {
+		// Produce an element containing an escape sequence.
+		// This method should be called when the final
+		// character of an escape sequence has arrived.
+		// Escape sequences that introduce control sequences
+		// or control strings are not produced here.
 		Emit(new AnsiEscapeSequence(ch, intermediateChars));
 	}
 
-	internal void CsiDispatch(char ch) {
-        // The final character of a CSI escape seqence has arrived.
+	internal void DispatchSeq(char ch) {
+		// Produce an element containing a control sequence.
         if (!string.IsNullOrEmpty(privateParameters)) {
             Emit(new AnsiPrivateControlSequence($"{intermediateChars}{ch}", privateParameters));
             return;
@@ -389,19 +390,24 @@ public class AnsiStreamParser {
     }
 
 	internal void StartString(ControlStringType type) {
+		// Produce an element indicating the start of a control string.
 		stringType = type;
 		Emit(new AnsiControlStringInitiator(type));
 	}
-	
-	internal void PutChar(char ch) =>
-		Emit(new AnsiControlStringChar(stringType, ch));
 
-	internal void TerminateString() =>
-		Emit(new AnsiControlStringTerminator(stringType));
+    internal void DispatchControlStringChar(char ch) {
+		// Produce an element containing a single character in a control string.
+        Emit(new AnsiControlStringChar(stringType, ch));
+    }
 
-	// Private methods.
+    internal void DispatchStringTerminator() {
+		// Produce an element indicating the end of a control string.
+        Emit(new AnsiControlStringTerminator(stringType));
+    }
 
-	private StateHandler RegisterHandler(StateHandler handler) {
+    // Private methods.
+
+    private StateHandler RegisterHandler(StateHandler handler) {
 		// Register a new state handler in the handlers
 		// Dictionary, keyed by its StateId.
 

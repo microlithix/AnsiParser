@@ -9,9 +9,10 @@ namespace Microlithix.Text.Ansi.Element;
 /// There are a total of 64 different <see cref="ControlCode">control codes
 /// </see> defined or reserved in <see href="../docs/References.md#ecma-48">
 /// ECMA-48</see>. The bit encodings for these control codes fall in the ranges
-/// <c>'\u0000'</c>...<c>'\u001f'</c> (C0 codes) and <c>0x80</c> ... <c>0x9f</c> (C1 codes). Except for the 7 control
-/// codes in the table below, each of these control codes will result in the
-/// production of an <see cref="AnsiSolitaryControlCode"/> element record.
+/// <c>0x00</c> ... <c>0x1f</c> (C0 codes) and <c>0x80</c> ... <c>0x9f</c> (C1 codes).
+/// Except for the 7 control codes in the table below, each of these control codes
+/// will result in the production of an <see cref="AnsiSolitaryControlCode"/>
+/// element.
 /// 
 /// The following 7 control codes each require one or more additional
 /// characters in order to complete the control sequence, so they are not
@@ -21,7 +22,7 @@ namespace Microlithix.Text.Ansi.Element;
 /// <list type="table">
 ///     <listheader>
 ///         <term>Control Code</term>
-///         <description>Record Type</description>
+///         <description>Element Type</description>
 ///     </listheader>
 ///     <item>
 ///         <term>
@@ -33,21 +34,21 @@ namespace Microlithix.Text.Ansi.Element;
 ///     <item>
 ///         <term>
 ///             <a href="xref:Microlithix.Text.Ansi.ControlCode.DCS?displayProperty=nameWithType"/>
-///             (0x90)
+///             (<c>0x90</c>)
 ///         </term>
 ///         <description><see cref="AnsiControlStringInitiator"/></description>
 ///     </item>
 ///     <item>
 ///         <term>
 ///             <a href="xref:Microlithix.Text.Ansi.ControlCode.SOS?displayProperty=nameWithType"/>
-///             (0x98)
+///             (<c>0x98</c>)
 ///         </term>
 ///         <description><see cref="AnsiControlStringInitiator"/></description>
 ///     </item>
 ///     <item>
 ///         <term>
 ///             <a href="xref:Microlithix.Text.Ansi.ControlCode.CSI?displayProperty=nameWithType"/>
-///             (0x9b)
+///             (<c>0x9b</c>)
 ///         </term>
 ///         <description><see cref="AnsiControlSequence"/> or
 ///         <see cref="AnsiPrivateControlSequence"/></description>
@@ -55,21 +56,21 @@ namespace Microlithix.Text.Ansi.Element;
 ///     <item>
 ///         <term>
 ///             <a href="xref:Microlithix.Text.Ansi.ControlCode.OSC?displayProperty=nameWithType"/>
-///             (0x9d)
+///             (<c>0x9d</c>)
 ///         </term>
 ///         <description><see cref="AnsiControlStringInitiator"/></description>
 ///     </item>
 ///     <item>
 ///         <term>
 ///             <a href="xref:Microlithix.Text.Ansi.ControlCode.PM?displayProperty=nameWithType"/>
-///             (0x9e)
+///             (<c>0x9e</c>)
 ///         </term>
 ///         <description><see cref="AnsiControlStringInitiator"/></description>
 ///     </item>
 ///     <item>
 ///         <term>
 ///             <a href="xref:Microlithix.Text.Ansi.ControlCode.APC?displayProperty=nameWithType"/>
-///             (0x9f)
+///             (<c>0x9f</c>)
 ///         </term>
 ///         <description><see cref="AnsiControlStringInitiator"/></description>
 ///     </item>
@@ -83,21 +84,22 @@ public record AnsiSolitaryControlCode : IAnsiStreamParserElement, IAnsiStringPar
     public char Code { get; init; }
 
     /// <summary>
-    /// Creates a new record with the specified control code.
+    /// Creates a new <see cref="AnsiSolitaryControlCode"/>
+    /// instance with the specified control code.
     /// </summary>
     /// 
     /// <param name="code">
-    /// A control code in the range 0x00-0x1A, 0x1C-0x1F,
-    /// 0x80-0x8F, 0x91-0x97, 0x99-0x9A, or 0x9C.
+    /// A control code in the range <c>0x00</c>...<c>0x1a</c>, <c>0x1c</c>...<c>0x1f</c>,
+    /// <c>0x80</c>...<c>0x8f</c>, <c>0x91</c>...<c>0x97</c>, <c>0x99</c>...<c>0x9a</c>, or <c>0x9c</c>.
     /// </param>
     public AnsiSolitaryControlCode(char code) {
         switch (code) {
-            case >= (char)0x00 and <= (char)0x1A:
-            case >= (char)0x1C and <= (char)0x1F:
-            case >= (char)0x80 and <= (char)0x8F:
-            case >= (char)0x91 and <= (char)0x97:
-            case >= (char)0x99 and <= (char)0x9A:
-            case (char)0x9C:
+            case >= '\u0000' and <= '\u001a':
+            case >= '\u001c' and <= '\u001f':
+            case >= '\u0080' and <= '\u008f':
+            case >= '\u0091' and <= '\u0097':
+            case >= '\u0099' and <= '\u009a':
+            case '\u009c':
                 Code = code;
                 break;
             default:

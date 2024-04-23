@@ -18,7 +18,7 @@ namespace Microlithix.Text.Ansi;
 internal class StateHandler {
 
     private AnsiStreamParser state;
-	protected char ch;
+    protected char ch;
 
     public StateHandler(StateId stateId, AnsiStreamParser context) {
         StateId = stateId;
@@ -27,143 +27,150 @@ internal class StateHandler {
 
     public StateId StateId { get; init; }
 
-	public void Process(char ch) {
-		this.ch = ch;
-		OnProcess();
-	}
+    public void Process(char ch) {
+        this.ch = ch;
+        OnProcess();
+    }
 
     // Overridable state handler methods.
  
     public virtual void OnEnter() {
-		// Override this method to perform any
-		// required actions when a state is entered.
-	}
+        // Override this method to perform any
+        // required actions when a state is entered.
+    }
     public virtual void OnProcess() {
-		// Override this method to perform state-specific processing for a single
-		// input character. The input character will be available in the 'ch' field.
-	}
+        // Override this method to perform state-specific processing for a single
+        // input character. The input character will be available in the 'ch' field.
+    }
     public virtual void OnExit() {
-		// Override this method to perform any
-		// required actions when a state is exited.
-	}
+        // Override this method to perform any
+        // required actions when a state is exited.
+    }
 
     // Actions
 
-    protected void Clear() => state.Clear();
-    protected void Print() => state.Print(ch);
-    protected void Collect() => state.Collect(ch);
-    protected void Param() => state.Param(ch);
-	protected void PrivateParam() => state.PrivateParam(ch);
-	protected void Execute() => state.Execute(ch);
-    protected void EscDispatch() => state.EscDispatch(ch);
-    protected void CsiDispatch() => state.CsiDispatch(ch);
-	protected void PutChar() => state.PutChar(ch);
-	protected void StartAPC() => state.StartString(ControlStringType.ApplicationProgramCommand);
-	protected void StartDCS() => state.StartString(ControlStringType.DeviceControlString);
-	protected void StartOSC() => state.StartString(ControlStringType.OperatingSystemCommand);
-	protected void StartPM() => state.StartString(ControlStringType.PrivacyMessage);
-	protected void StartSOS() => state.StartString(ControlStringType.StartOfString);
-	protected void TerminateString() => state.TerminateString();
+    protected void NewSequence() => state.NewSequence();
+    protected void Intermediate() => state.Intermediate(ch);
+    protected void Parameter() => state.Parameter(ch);
+    protected void PrivateParameter() => state.PrivateParameter(ch);
+
+    protected void DispatchChar() => state.DispatchChar(ch);
+    protected void DispatchCtl() => state.DispatchCtl(ch);
+    protected void DispatchEsc() => state.DispatchEsc(ch);
+    protected void DispatchSeq() => state.DispatchSeq(ch);
+
+    protected void StartAPC() => state.StartString(ControlStringType.ApplicationProgramCommand);
+    protected void StartDCS() => state.StartString(ControlStringType.DeviceControlString);
+    protected void StartOSC() => state.StartString(ControlStringType.OperatingSystemCommand);
+    protected void StartPM() => state.StartString(ControlStringType.PrivacyMessage);
+    protected void StartSOS() => state.StartString(ControlStringType.StartOfString);
+    protected void DispatchControlStringChar() => state.DispatchControlStringChar(ch);
+    protected void DispatchStringTerminator() => state.DispatchStringTerminator();
+
     protected void ChangeState(StateId newState, Action? transitionAction = null) =>
         state.ChangeState(newState, transitionAction);
 
     // Common helper methods useful for most derived classes.
 
- 	protected bool ProcessUnconditionalControlCode() {
-		// Each of the following control codes operates unconditionally with
-		// a fixed behavior regardless of where it appears in the input stream.
-        // Therefore, these codes all interrupt any control sequence in progress.
-        // If the sequence in progress is a control string, it will be terminated.
-        // Any other control sequence in progress will be discarded.
-		switch (ch) {
-			case ControlCode.CAN: // 0x18
-			case ControlCode.SUB: // 0x1A
+     protected bool DispatchUnconditionalControlCode() {
+        // Check if the current character is an unconditional control
+        // code in the range 0x18,0x1a-0x1b,0x80-0x9f. If it is,
+        // then handle it and return true, otherwise return false.
+        // All of these codes operate unconditionaly regardless of
+        // where they appear in the input stream. If a control string
+        // sequence is in progress, it will be completed and dispatched
+        // by the control string state handler. Any other control
+        // sequence in progress will be discarded.
+        switch (ch) {
+            case ControlCode.CAN: // '\u0018'
+            case ControlCode.SUB: // '\u001a'
                 // Emit the control code and forcibly return to the Ground state.
                 // These codes are typically used to cancel a control
-                // sequence in progress without any side effects.
-				ChangeState(StateId.Ground, Execute);
-				return true;
-			case ControlCode.ESC: // 0x1B
+                // sequence in progress without any other side effects.
+                ChangeState(StateId.Ground, DispatchCtl);
+                return true;
+            case ControlCode.ESC: // '\u001b'
                 // Immediately begin a new escape sequence.
-				ChangeState(StateId.Escape);
-				return true;
-			case >= (char)0x80 and <= (char)0x8F:
+                ChangeState(StateId.EscapeEntry);
+                return true;
+            case >= '\u0080' and <= '\u008f':
                 // Emit the control code and forcibly return to the Ground state.
-				ChangeState(StateId.Ground, Execute);
-				return true;
-			case ControlCode.DCS: // 0x90
+                ChangeState(StateId.Ground, DispatchCtl);
+                return true;
+            case ControlCode.DCS: // '\u0090'
                 // Immediately begin a new DCS control string.
-				ChangeState(StateId.CommandString, StartDCS);
-				return true;
-			case >= (char)0x91 and <= (char)0x97:
+                ChangeState(StateId.CommandString, StartDCS);
+                return true;
+            case >= '\u0091' and <= '\u0097':
                 // Emit the control code and forcibly return to the Ground state.
-				ChangeState(StateId.Ground, Execute);
-				return true;
-			case ControlCode.SOS: // 0x98
+                ChangeState(StateId.Ground, DispatchCtl);
+                return true;
+            case ControlCode.SOS: // '\u0098'
                 // Immediately begin a new SOS control string.
-				ChangeState(StateId.CharacterString, StartSOS);
-				return true;
-			case ControlCode.SGC: // 0x99
-			case ControlCode.SCI: // 0x9A
+                ChangeState(StateId.CharacterString, StartSOS);
+                return true;
+            case ControlCode.SGC: // '\u0099'
+            case ControlCode.SCI: // '\u009a'
                 // Emit the control code and forcibly return to the Ground state.
-				ChangeState(StateId.Ground, Execute);
-				return true;
-			case ControlCode.CSI: // 0x9B
+                ChangeState(StateId.Ground, DispatchCtl);
+                return true;
+            case ControlCode.CSI: // '\u009b'
                 // Immediately begin a new CSI control sequence.
-				ChangeState(StateId.CsiEntry);
-				return true;
-			case ControlCode.ST:  // 0x9C
-                // Forcibly return to the Ground state.
-				ChangeState(StateId.Ground);
-				return true;
-			case ControlCode.OSC: // 0x9D
+                ChangeState(StateId.ControlSequenceEntry);
+                return true;
+            case ControlCode.ST:  // '\u009c'
+                // Complete any control string sequence currently
+                // in progress and return to the Ground state.
+                // We don't need to explicitly produce a string terminator
+                // element here because that will be handled automatically
+                // by the exit condition of the control string state
+                // handler if a control string is being processed.
+                // If this control code appears outside of any
+                // control string it will not produce an element.
+                ChangeState(StateId.Ground);
+                return true;
+            case ControlCode.OSC: // '\u009d'
                 // Immediately begin a new OSC command string.
-				ChangeState(StateId.CommandString, StartOSC);
-				return true;
-			case ControlCode.PM:  // 0x9E
+                ChangeState(StateId.CommandString, StartOSC);
+                return true;
+            case ControlCode.PM:  // '\u009e'
                 // Immediately begin a new PM control string.
-				ChangeState(StateId.CommandString, StartPM);
-				return true;
-			case ControlCode.APC: // 0x9F
+                ChangeState(StateId.CommandString, StartPM);
+                return true;
+            case ControlCode.APC: // '\u009f'
                 // Immediately begin a new APC control string.
-				ChangeState(StateId.CommandString, StartAPC);
-				return true;
-			default:
-				return false;
-		}
-	}
+                ChangeState(StateId.CommandString, StartAPC);
+                return true;
+            default:
+                return false;
+        }
+    }
 
-	protected bool ProcessConditionalControlCode(bool execute = true) {
-		// The following control codes are executed in some states and
-		// ignored in others. The 'execute' parameter can be set to false
-		// in order to ignore the control code. This method returns true
-		// if the provided character is a conditional control code,
-		// regardless of whether or not it was executed.
-		if (ch >= (char)0x20) return false;
-		if (ch == (char)0x1B) return false;
-		if (ch == (char)0x1A) return false;
-		if (ch == (char)0x18) return false;
-		if (execute) Execute();
-		return true;
-	}
+    protected bool DispatchConditionalControlCode() {
+        // Check if the current character is a conditional control
+        // code in the range 0x00-0x17,0x19,0x1c-0x1f. If it is,
+        // then dispatch it and return true, otherwise return false.
+        if (ch >= '\u0020') return false;
+        if (ch == '\u0018') return false;
+        if (ch == '\u001a') return false;
+        if (ch == '\u001b') return false;
+        DispatchCtl();
+        return true;
+    }
 
-	protected bool ProcessControlCode(bool execute = true) {
-		// Process the provided character if it is a control code.
-		// Unconditional control codes are always executed, while
-		// the execution of conditional control codes is determined
-		// by the 'execute' parameter. This method returns true if
-		// the provided character is a control code in the range
-		// 0x00-0x1F or 0x80-0x9F, regardless of whether or not
-		// it was executed.
-		if (ProcessUnconditionalControlCode()) return true;
-		if (ProcessConditionalControlCode(execute)) return true;
-		return false;
-	}
+    protected bool DispatchControlCode() {
+        // Check if the current character is a control code.
+        // If it is, then dispatch it and return true.
+        // Otherwise return false.
+        if (DispatchUnconditionalControlCode()) return true;
+        if (DispatchConditionalControlCode()) return true;
+        return false;
+    }
 
-	protected class UnhandledCharacterCodeException : Exception {
-		public UnhandledCharacterCodeException(char ch) : base(
-			$"AnsiStreamParser internal error. Unhandled character code '{ch.ToHexString()}'."
-		) {}
-	}
+    protected class UnhandledCharacterCodeException : Exception {
+        public UnhandledCharacterCodeException(char ch) : base(
+            $"AnsiStreamParser internal error. Unhandled character code '{ch.ToHexString()}'."
+        ) {}
+    }
 }
 

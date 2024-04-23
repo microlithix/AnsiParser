@@ -26,7 +26,8 @@
     ],
     "markdownEngineProperties": {
       "markdigExtensions": [
-          "Footnotes"
+          "Footnotes",
+          "GridTables"
       ],
       "plantUml": {
         "outputFormat": "svg",
@@ -44,7 +45,8 @@
     ],
     "template": [
       "default",
-      "modern"
+      "modern",
+      "template"
     ],
     "globalMetadata": {
       "_appName": "AnsiParser",

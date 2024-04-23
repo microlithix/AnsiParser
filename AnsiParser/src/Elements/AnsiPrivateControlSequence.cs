@@ -15,8 +15,8 @@ public record AnsiPrivateControlSequence : IAnsiStreamParserElement, IAnsiString
     /// The Function property determines how the Parameters should be
     /// interpreted, and the actions that the consuming application
     /// should initiate when it receives the control sequence. It
-    /// consists of a character in the range 0x40-0x7E, optionally
-    /// preceded by one or more charactders in the range 0x20-0x2F.
+    /// consists of a character in the range 0x40-0x7e, optionally
+    /// preceded by one or more charactders in the range 0x20-0x2f.
     /// See <see cref="Microlithix.Text.Ansi.ControlFunction"/>
     /// for a standardized list of control sequence functions.
     /// </summary>
@@ -25,25 +25,25 @@ public record AnsiPrivateControlSequence : IAnsiStreamParserElement, IAnsiString
     /// <summary>
     /// A string of parameter bytes from the control sequence representing
     /// a "private parameter string" that is application-defined.
-    /// Private parameter strings begin with a byte in the range 0x3C-0x3F.
+    /// Private parameter strings begin with a byte in the range 0x3c-0x3f.
     /// </summary>
     public string Parameters { init; get; }
 
     /// <summary>
     /// Creates a new <see cref="AnsiPrivateControlSequence"/>
-    /// record from a function string and a parameter string.
+    /// instance from a function string and a parameter string.
     /// </summary>
     /// <param name="function">
     /// Specifies the control sequence function to be performed.
     /// This string must consist of zero or more optional characters in the
-    /// range 0x20-0x2F, followed by exactly one character in the range
-    /// 0x40-0x7E.
+    /// range 0x20-0x2f, followed by exactly one character in the range
+    /// 0x40-0x7e.
     /// </param>
     /// <param name="parameters">
     /// Specifies the parameters for the control sequence function.
     /// This private parameter string must consist of one character
-    /// in the range 0x3C-0x3F, followed by zero or more characters
-    /// in the range 0x30-0x3F. It's interpretation is application-defined.
+    /// in the range 0x3c-0x3f, followed by zero or more characters
+    /// in the range 0x30-0x3f. It's interpretation is application-defined.
     /// </param>
     public AnsiPrivateControlSequence(string function, string parameters) {
         Function = function;

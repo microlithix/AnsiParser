@@ -8,7 +8,7 @@ namespace Microlithix.Text.Ansi.Element;
 ///
 /// <remarks>
 /// The callback function for <see cref="AnsiStreamParser"/> will receive
-/// records implementing this interface. These records hold either a single
+/// elements implementing this interface. These elements hold either a single
 /// printable character, a single character from a control string, or a
 /// single control or escape sequence parsed from the input stream.
 /// </remarks>

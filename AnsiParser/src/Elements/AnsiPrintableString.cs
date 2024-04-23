@@ -20,7 +20,7 @@ public record AnsiPrintableString : IAnsiStringParserElement {
 
     /// <summary>
     /// Creates a new <see cref="AnsiPrintableString"/>
-    /// record with the specified content.
+    /// instance with the specified content.
     /// </summary>
     /// 
     /// <param name="text">

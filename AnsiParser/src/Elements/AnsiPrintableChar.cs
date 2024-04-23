@@ -18,8 +18,8 @@ public record AnsiPrintableChar : IAnsiStreamParserElement {
     public char Character { get; init; }
 
     /// <summary>
-    /// Creates a new <see cref="AnsiPrintableChar"/> record
-    /// with the specified character value.
+    /// Creates a new <see cref="AnsiPrintableChar"/>
+    /// instance with the specified character value.
     /// </summary>
     /// 
     /// <param name="character">

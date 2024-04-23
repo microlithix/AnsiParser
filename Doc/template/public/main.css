@@ -1,0 +1,14 @@
+.not-clickable {
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+  pointer-events: none;
+}
+
+.hljs-comment {
+  font-style: italic;
+}
+
+[data-bs-theme='dark'] .hljs-variable {
+  color: #d89fda;
+}

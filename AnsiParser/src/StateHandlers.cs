@@ -9,51 +9,52 @@ internal class StateHandlerForGround : StateHandler {
         base(StateId.Ground, context) {}
 
 	public override void OnProcess() {
-		if (ProcessControlCode()) return;
-		Print();
+		if (DispatchControlCode()) return;
+		DispatchChar();
 	}
 }
 
 internal class StateHandlerForEscape : StateHandler {
 
     public StateHandlerForEscape(AnsiStreamParser context) :
-        base(StateId.Escape, context) {}
+        base(StateId.EscapeEntry, context) {}
 
-    public override void OnEnter() => Clear();
+    public override void OnEnter() => NewSequence();
 
 	public override void OnProcess() {
-		if (ProcessControlCode()) return;
+		if (DispatchControlCode()) return;
 
 		switch (ch) {
-			case >= (char)0x20 and <= (char)0x2F:
-				ChangeState(StateId.EscapeIntermediate, Collect);
+			case >= '\u0020' and <= '\u002f':
+				ChangeState(StateId.EscapeIntermediate, Intermediate);
 				return;
-			case (char)0x50:
+			case '\u0050':
 				ChangeState(StateId.CommandString, StartDCS);
 				return;
-			case (char)0x58:
+			case '\u0058':
 				ChangeState(StateId.CharacterString, StartSOS);
 				return;
-			case (char)0x5E:
-				ChangeState(StateId.CommandString, StartPM);
+			case '\u005b':
+				ChangeState(StateId.ControlSequenceEntry);
 				return;
-			case (char)0x5F:
-				ChangeState(StateId.CommandString, StartAPC);
-				return;
-			case (char)0x5B:
-				ChangeState(StateId.CsiEntry);
-				return;
-			case (char)0x5D:
+			case '\u005d':
 				ChangeState(StateId.CommandString, StartOSC);
 				return;
-			case >= (char)0x30 and <= (char)0x4F:
-			case >= (char)0x51 and <= (char)0x57:
-			case >= (char)0x59 and <= (char)0x5A:
-			case (char)0x5C:
-			case >= (char)0x60 and <= (char)0x7E:
-				ChangeState(StateId.Ground, EscDispatch);
+			case '\u005e':
+				ChangeState(StateId.CommandString, StartPM);
 				return;
-			case >= (char)0x7F: return; // Ignore character.
+			case '\u005f':
+				ChangeState(StateId.CommandString, StartAPC);
+				return;
+			case >= '\u0030' and <= '\u004f':
+			case >= '\u0051' and <= '\u0057':
+			case >= '\u0059' and <= '\u005a':
+			case '\u005c':
+			case >= '\u0060' and <= '\u007e':
+			case >= '\u00a0':
+				ChangeState(StateId.Ground, DispatchEsc);
+				return;
+			case '\u007f': return; // Ignore character.
 		}
 		throw new UnhandledCharacterCodeException(ch);
 	}
@@ -65,18 +66,18 @@ internal class StateHandlerForEscapeIntermediate : StateHandler {
         base(StateId.EscapeIntermediate, context) {}
 
 	public override void OnProcess() {
-		if (ProcessControlCode()) return;
+		if (DispatchControlCode()) return;
 
 		switch (ch) {
-			case >= (char)0x20 and <= (char)0x2F:
-				Collect();
+			case >= '\u0020' and <= '\u002f':
+				Intermediate();
 				return;
-			case >= (char)0x30 and <= (char)0x7E:
-				ChangeState(StateId.Ground, EscDispatch);
+			case >= '\u0030' and <= '\u007e':
+				ChangeState(StateId.Ground, DispatchEsc);
 				return;
-			case (char)0x7F: return; // Ignore character.
-			case >= (char)0xA0:
-				ChangeState(StateId.Ground, EscDispatch);
+			case '\u007f': return; // Ignore character.
+			case >= '\u00a0':
+				ChangeState(StateId.Ground, DispatchEsc);
 				return;
 		}
 		throw new UnhandledCharacterCodeException(ch);
@@ -86,27 +87,29 @@ internal class StateHandlerForEscapeIntermediate : StateHandler {
 internal class StateHandlerForCsiEntry : StateHandler {
 
     public StateHandlerForCsiEntry(AnsiStreamParser context) :
-        base(StateId.CsiEntry, context) {}
+        base(StateId.ControlSequenceEntry, context) {}
 
-    public override void OnEnter() => Clear();
+    public override void OnEnter() => NewSequence();
 
 	public override void OnProcess() {
-		if (ProcessControlCode()) return;
+		if (DispatchControlCode()) return;
 
 		switch (ch) {
-			case >= (char)0x20 and <= (char)0x2F:
-				ChangeState(StateId.CsiIntermediate, Collect);
+			case >= '\u0020' and <= '\u002f':
+				ChangeState(StateId.ControlSequenceIntermediate, Intermediate);
 				return;
-			case >= (char)0x30 and <= (char)0x3B:
-				ChangeState(StateId.CsiParam, Param);
+			case >= '\u0030' and <= '\u003b':
+				ChangeState(StateId.ControlSequenceParameter, Parameter);
 				return;
-			case >= (char)0x3C and <= (char)0x3F:
-				ChangeState(StateId.CsiPrivateParam, PrivateParam);
+			case >= '\u003c' and <= '\u003f':
+				ChangeState(StateId.ControlSequencePrivateParameter, PrivateParameter);
 				return;
-			case >= (char)0x40 and <= (char)0x7E:
-				ChangeState(StateId.Ground, CsiDispatch);
+			case >= '\u0040' and <= '\u007e':
+				ChangeState(StateId.Ground, DispatchSeq);
 				return;
-			case >= (char)0x7F: return; // Ignore character.
+			case '\u007f':
+			case >= '\u00a0':
+				return; // Ignore character.
 		}
 		throw new UnhandledCharacterCodeException(ch);
 	}
@@ -115,25 +118,27 @@ internal class StateHandlerForCsiEntry : StateHandler {
 internal class StateHandlerForCsiParam : StateHandler {
 
     public StateHandlerForCsiParam(AnsiStreamParser context) :
-        base(StateId.CsiParam, context) {}
+        base(StateId.ControlSequenceParameter, context) {}
 
 	public override void OnProcess() {
-		if (ProcessControlCode()) return;
+		if (DispatchControlCode()) return;
 
 		switch (ch) {
-			case >= (char)0x20 and <= (char)0x2F:
-				ChangeState(StateId.CsiIntermediate, Collect);
+			case >= '\u0020' and <= '\u002f':
+				ChangeState(StateId.ControlSequenceIntermediate, Intermediate);
 				return;
-			case >= (char)0x30 and <= (char)0x3B:
-				Param();
+			case >= '\u0030' and <= '\u003b':
+				Parameter();
 				return;
-			case >= (char)0x3C and <= (char)0x3F:
-				ChangeState(StateId.CsiIgnore);
+			case >= '\u003c' and <= '\u003f':
+				ChangeState(StateId.ControlSequenceIgnore);
 				return;
-			case >= (char)0x40 and <= (char)0x7E:
-				ChangeState(StateId.Ground, CsiDispatch);
+			case >= '\u0040' and <= '\u007e':
+				ChangeState(StateId.Ground, DispatchSeq);
 				return;
-			case >= (char)0x7F: return; // Ignore character.
+			case '\u007f':
+			case >= '\u00a0':
+				return; // Ignore character.
 		}
 		throw new UnhandledCharacterCodeException(ch);
 	}
@@ -142,22 +147,24 @@ internal class StateHandlerForCsiParam : StateHandler {
 internal class StateHandlerForCsiPrivateParam : StateHandler {
 
 	public StateHandlerForCsiPrivateParam(AnsiStreamParser context) :
-		base(StateId.CsiPrivateParam, context) {}
+		base(StateId.ControlSequencePrivateParameter, context) {}
 
     public override void OnProcess() {
-		if (ProcessControlCode()) return;
+		if (DispatchControlCode()) return;
 
 		switch (ch) {
-			case >= (char)0x20 and <= (char)0x2F:
-				ChangeState(StateId.CsiIntermediate, Collect);
+			case >= '\u0020' and <= '\u002f':
+				ChangeState(StateId.ControlSequenceIntermediate, Intermediate);
 				return;
-			case >= (char)0x30 and <= (char)0x3F:
-				PrivateParam();
+			case >= '\u0030' and <= '\u003f':
+				PrivateParameter();
 				return;
-			case >= (char)0x40 and <= (char)0x7E:
-				ChangeState(StateId.Ground, CsiDispatch);
+			case >= '\u0040' and <= '\u007e':
+				ChangeState(StateId.Ground, DispatchSeq);
 				return;
-			case >= (char)0x7F: return; // Ignore character.
+			case '\u007f':
+			case >= '\u00a0':
+				return; // Ignore character.
 		}
 		throw new UnhandledCharacterCodeException(ch);
     }
@@ -166,22 +173,24 @@ internal class StateHandlerForCsiPrivateParam : StateHandler {
 internal class StateHandlerForCsiIntermediate : StateHandler {
 
     public StateHandlerForCsiIntermediate(AnsiStreamParser context) :
-        base(StateId.CsiIntermediate, context) {}
+        base(StateId.ControlSequenceIntermediate, context) {}
 
 	public override void OnProcess() {
-		if (ProcessControlCode()) return;
+		if (DispatchControlCode()) return;
 
 		switch (ch) {
-			case >= (char)0x20 and <= (char)0x2F:
-				Collect();
+			case >= '\u0020' and <= '\u002f':
+				Intermediate();
 				return;
-			case >= (char)0x30 and <= (char)0x3F:
-				ChangeState(StateId.CsiIgnore);
+			case >= '\u0030' and <= '\u003f':
+				ChangeState(StateId.ControlSequenceIgnore);
 				return;
-			case >= (char)0x40 and <= (char)0x7E:
-				ChangeState(StateId.Ground, CsiDispatch);
+			case >= '\u0040' and <= '\u007e':
+				ChangeState(StateId.Ground, DispatchSeq);
 				return;
-			case >= (char)0x7F: return; // Ignore character.
+			case '\u007f':
+			case >= '\u00a0':
+				return; // Ignore character.
 		}
 		throw new UnhandledCharacterCodeException(ch);
 	}
@@ -193,22 +202,22 @@ internal class StateHandlerForCsiIgnore : StateHandler {
 	// sequence is reached, and then it discards the entire malformed CSC sequence.
 
     public StateHandlerForCsiIgnore(AnsiStreamParser context) :
-        base(StateId.CsiIgnore, context) {}
+        base(StateId.ControlSequenceIgnore, context) {}
 
 	public override void OnProcess() {
-		if (ProcessControlCode()) return;
+		if (DispatchControlCode()) return;
 
 		switch (ch) {
-			case >= (char)0x20 and <= (char)0x3F:
+			case >= '\u0020' and <= '\u003f':
 				// Ignore
 				return;
-			case >= (char)0x40 and <= (char)0x7E:
+			case >= '\u0040' and <= '\u007e':
 				ChangeState(StateId.Ground);
 				return;
-			case (char)0x7F:
+			case '\u007f':
 				// Ignore character.
 				return;
-			case >= (char)0xA0:
+			case >= '\u00a0':
 				ChangeState(StateId.Ground);
 				return;
 		}
@@ -219,55 +228,57 @@ internal class StateHandlerForCsiIgnore : StateHandler {
 internal class StateHandlerForCommandString : StateHandler {
 	// Handler for ECMA-48 command strings.
 	
-	// According to ECMA-48, command strings allow characters in the ranges 0x08-0x0D
-	// and 0x20-0x7E. The string terminator (ST) sequence (0x9C or 0x1B 0x5C) terminates
-	// a command string. The behavior of other C0 and C1 control codes and code 0x7F is
+	// According to ECMA-48, command strings allow characters in the ranges 0x08-0x0d
+	// and 0x20-0x7e. The string terminator (ST) sequence (0x9c or 0x1b 0x5c) terminates
+	// a command string. The behavior of other C0 and C1 control codes and code 0x7f is
 	// not defined.
 
 	// The present implementation treats all undefined C0 and C1 control codes as string
 	// terminators. This behavior is consistent with Xterm, which can terminate a command
 	// string with 0x07 (BEL).
 	
-	// After terminating the string, C0 control codes apart from 0x18, 0x1A, and 0x1B
+	// After terminating the string, C0 control codes apart from 0x18, 0x1a, and 0x1b
 	// are ignored, while those three codes and all C1 control codes elicit their normal
-	// unconditional behaviors. Code 0x7F is ignored. Futhermore, all codes from 0xA0
-	// through 0xFFFF are allowed in the command string.
+	// unconditional behaviors. Code 0x7f is ignored. Futhermore, all codes from 0xa0
+	// through 0xffff are allowed in the command string.
 	
     public StateHandlerForCommandString(AnsiStreamParser context) :
         base(StateId.CommandString, context) {}
 
 	public override void OnProcess() {
-		if (ProcessUnconditionalControlCode()) return;
+		if (DispatchUnconditionalControlCode()) return;
 
 		switch (ch) {
-			case >= (char)0x08 and <= (char)0x0D:
+			case >= '\u0008' and <= '\u000d':
 				// Handle the C0 codes that are specifically allowed in command strings.
-				PutChar();
+				DispatchControlStringChar();
 				return;
-			case <= (char)0x07:
-			case >= (char)0x0E and <= (char)0x1F:
-				// All other C0 codes terminate the command
-				// string but are otherwise ignored.
+			case <= '\u0007':
+			case >= '\u000e' and <= '\u0017':
+			case '\u0019':
+			case >= '\u001c' and <= '\u001f':
+				// All other conditional C0 codes terminate
+				// the command string but are otherwise ignored.
 				ChangeState(StateId.Ground);
 				return;
-			case >= (char)0x20 and <= (char)0x7E:
+			case >= '\u0020' and <= '\u007e':
 				// ECMA-48 permits these codes in all control strings.
-				PutChar();
+				DispatchControlStringChar();
 				return;
-			case (char)0x7F:
+			case '\u007f':
 				// Behavior for command strings is undefined in ECMA-48.
 				// We just ignore this code.
 				return;
-			case >= (char)0xA0:
+			case >= '\u00a0':
 				// Behavior undefined in ECMA-48.
 				// Allow all other UTF-16 characters in the command string.
-				PutChar();
+				DispatchControlStringChar();
 				return;
 		}
 		throw new UnhandledCharacterCodeException(ch);
 	}
 
-    public override void OnExit() => TerminateString();
+    public override void OnExit() => DispatchStringTerminator();
 }
 
 internal class StateHandlerForCharacterString : StateHandler {
@@ -285,7 +296,7 @@ internal class StateHandlerForCharacterString : StateHandler {
 
 	// In light of these considerations, the present implementation treats DCS, PM, and
 	// SOS strings as character strings, while treating APC and OSC as command strings.
-	// Furthermore, codes 0x18, 0x1A, 0x1B, and all C1 control codes are treated as
+	// Furthermore, codes 0x18, 0x1a, 0x1b, and all C1 control codes are treated as
 	// string terminators for character strings, rather than just SOS and ST sequences
 	// as specified in ECMA-48.
 
@@ -293,11 +304,11 @@ internal class StateHandlerForCharacterString : StateHandler {
         base(StateId.CharacterString, context) {}
 
 	public override void OnProcess() {
-		if (ProcessUnconditionalControlCode()) return;
+		if (DispatchUnconditionalControlCode()) return;
 
 		// All other codes are allowed in character strings.
-		PutChar();
+		DispatchControlStringChar();
 	}
 
-    public override void OnExit() => TerminateString();
+    public override void OnExit() => DispatchStringTerminator();
 }
