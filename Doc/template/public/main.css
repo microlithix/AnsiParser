@@ -5,6 +5,10 @@
   pointer-events: none;
 }
 
+:root {
+  --dark-mode-foreground: #dee2e6;
+}
+
 .hljs-comment {
   font-style: italic;
 }
@@ -12,3 +16,20 @@
 [data-bs-theme='dark'] .hljs-variable {
   color: #d89fda;
 }
+
+[data-bs-theme='dark'] {
+
+  #state-diagram {
+    .connector, .connector-node {
+      stroke: var(--dark-mode-foreground);
+      fill: var(--dark-mode-foreground);
+    }
+    .connector-label {
+      fill: var(--dark-mode-foreground);
+    }
+  }
+}
+
+/* The following style appears to be necessary in order to prevent        */
+/* a white background when embedding an SVG image inside an <object> tag. */
+/* object { color-scheme: light; } */
