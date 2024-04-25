@@ -3,13 +3,17 @@
 The parser implements the state machine shown here:
 
 <!-- markdownlint-disable MD033 -->
+<!-- The 'a' tag prevents the image from being a clickable link, -->
+<!-- and allows the selection and copying of text within the image. -->
 <script src="../images/svg-inject.min.js"></script>
+<a>
 <img id="state-diagram"
     width="100%" height="auto"
     title="Parser State Diagram"
     alt="Parser state diagram"
     src="../images/StateDiagram.svg"
     onload="SVGInject(this)"/>
+</a>
 <!-- markdownlint-enable MD033 -->
 
 Processing begins in the ground state at the bottom of the diagram, and the arrival of each character constitutes an event. Since the characters have 16-bit UTF-16 encodings, there are 2^16 possible events that can occur while the system is in any given state. In order to avoid any undefined behavior, the response of each state to all possible events is specified explicitly.

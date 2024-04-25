@@ -18,13 +18,13 @@ AnsiStreamParser parser = new(ParsedElementCallback);
 
 string inputStream = $"\x1b[34mHello\x1b[0m";
 
-foreach (ch in inputStream) {
+foreach (char ch in inputStream) {
     parser.Parse(ch);
 }
 
 void ParsedElementCallback(IAnsiStreamParserElement element) {
     // Handle the parsed element.
-    Debug.Print(element);
+    Debug.Print($"{element}");
 }
 ```
 
@@ -58,10 +58,10 @@ using Microlithix.Text.Ansi.Element;
 
 AnsiStringParser parser = new();
 
-List<IAnsiStringParserElement> elements = parser.Parse($"\x1b[34mHello\x1b[0m"));
+List<IAnsiStringParserElement> elements = parser.Parse($"\x1b[34mHello\x1b[0m");
 
-foreach (element in elements) {
-    Debug.Print(element);
+foreach (IAnsiStringParserElement element in elements) {
+    Debug.Print($"{element}");
 }
 ```
 

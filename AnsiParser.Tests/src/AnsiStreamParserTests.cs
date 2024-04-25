@@ -99,27 +99,18 @@ public class AnsiStreamParserShould {
     }
 
     [Fact]
-    public void Temp() {
-
-        //var a = new AnsiControlElement();
-        //var p = new AnsiStreamParser()
-        //var a = new AnsiPrivateCsiElement('a', "", "");
-        //var b = new AnsiPrintElement()
-        //var a = new AnsiCsiElement('a', "", )
-        //a.Para
-        //new AnsiStreamParser()
-        /*
-        BinaryReader b;
-        b.Read()
-        parser.Parse()
-        new Ansi
-        */
+    public void TestSampleCode() {
+        AnsiStreamParser parser = new(ParsedElementCallback);
 
         string inputStream = $"\x1b[34mHello\x1b[0m";
 
-        var results = ParseString(inputStream);
-        foreach (var element in results) {
-            Debug.Print(element.ToString());
-        }   
+        foreach (char ch in inputStream) {
+            parser.Parse(ch);
+        }
+
+        void ParsedElementCallback(IAnsiStreamParserElement element) {
+            // Handle the parsed element.
+            Debug.Print($"{element}");
+        }
     }
 }

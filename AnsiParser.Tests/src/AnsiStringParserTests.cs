@@ -15,14 +15,6 @@ public class AnsiStringParserShould {
     }
 
     [Fact]
-    public void Temp() {
-        var result = parser.Parse($"\x1b[34mHello\x1b[0m");
-        foreach (var element in result) {
-            Debug.Print(element.ToString());
-        }   
-    }
-
-    [Fact]
     public void InvokeWithSampleCode_ToStringShouldMatch() {
         var result = parser.Parse($"\x1b[34mHello\x1b[0m");
         var strings = result.Select(element => element.ToString());
@@ -521,6 +513,18 @@ public class AnsiStringParserShould {
         };
         Assert.Equivalent(expected, result, true);
     }
+
+    [Fact]
+    public void TestSampleCode() {
+        AnsiStringParser parser = new();
+
+        List<IAnsiStringParserElement> elements = parser.Parse($"\x1b[34mHello\x1b[0m");
+
+        foreach (IAnsiStringParserElement element in elements) {
+            Debug.Print($"{element}");
+        }
+    }
+
 }
 
 public class AnsiStreamParserStatesShould {
