@@ -14,7 +14,7 @@
       This package contains modules for parsing character streams and strings
       with embedded control sequences that conform to ECMA-48 and ANSI X3.64,
       later adopted as ISO/IEC 6429. Such coded control sequences are commonly
-      referred to as *ANSI escape sequences* or *ANSI escape codes*. These
+      referred to as "ANSI escape sequences" or "ANSI escape codes". These
       control sequences are often used by terminals, terminal emulators,
       command shells, and other types of console applications.
     </Description>
