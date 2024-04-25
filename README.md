@@ -1,6 +1,4 @@
-<!-- markdownlint-disable MD033 -->
-# <img width="10%" title="Logo" alt="Logo" src="https://raw.githubusercontent.com/microlithix/microlithix.github.io/main/docs/images/Logo-Round-500x500.png"> Microlithix AnsiParser
-<!-- markdownlint-enable MD033 -->
+# ![Logo](https://raw.githubusercontent.com/microlithix/microlithix.github.io/main/docs/images/Logo-Round-100x100.png) Microlithix AnsiParser
 
 This package contains modules for parsing character streams and strings with embedded control sequences that conform to specifications published in [ANSI X3.64](https://www.microlithix.com/AnsiParser/docs/References.html#ansi-x364) and [ECMA-48](https://www.microlithix.com/AnsiParser/docs/References.html#ecma-48), later adopted as [ISO/IEC 6429](https://www.microlithix.com/AnsiParser/docs/References.html#isoiec-6429). Such coded control sequences are commonly referred to as *ANSI escape sequences* or *ANSI escape codes*. These control sequences are often used by terminals, terminal emulators, command shells, and other types of console applications.
 
