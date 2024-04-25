@@ -10,6 +10,10 @@ This work was inspired by Paul Flo Williams' [state machine description](https:/
 
 [Release Notes](https://github.com/microlithix/AnsiParser/blob/main/RELEASENOTES.md)
 
+[Repository](https://github.com/microlithix/AnsiParser)
+
+[NuGet Package](https://www.nuget.org/packages/Microlithix.AnsiParser/)
+
 [License](https://github.com/microlithix/AnsiParser/blob/main/LICENSE.md)
 
 ## Getting Started

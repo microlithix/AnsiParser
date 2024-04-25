@@ -12,6 +12,10 @@ See [Appendix 1](Notation.md) for a description of the notation used in this doc
 
 This work was inspired by Paul Flo Williams' [state machine description](https://vt100.net/emu/dec_ansi_parser) of the DEC VT500-Series parser, and by Joshua Haberman's [VTParse](https://github.com/haberman/vtparse) implementation of that state machine. See the [citations](References.md#other-references) for details.
 
+[Release Notes](https://github.com/microlithix/AnsiParser/blob/main/RELEASENOTES.md)
+
 [Repository](https://github.com/microlithix/AnsiParser)
+
+[NuGet Package](https://www.nuget.org/packages/Microlithix.AnsiParser/)
 
 [License](LICENSE.md)
