@@ -19,6 +19,7 @@
       command shells, and other types of console applications.
     </Description>
     <PackageId>Microlithix.AnsiParser</PackageId>
+    <PackageReleaseNotes>https://github.com/microlithix/AnsiParser/blob/main/RELEASENOTES.md</PackageReleaseNotes>
     <PackageTags>text;terminal;console;ANSI;escape;control;sequence;parse</PackageTags>
     <PackageIcon>Logo-Round-500x500.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>

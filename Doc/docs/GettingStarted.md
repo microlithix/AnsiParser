@@ -1,6 +1,18 @@
 # Getting Started
 
-The easiest way to get started is to create a reference to the package from your project.
+To use AnsiParser in a `dotnet` project, type the following command line from within the project directory in order to create a reference to the latest version of the AnsiParser package:
+
+```cmd
+dotnet add package Microlithix.AnsiParser
+```
+
+Alternatively, you can create the package reference by copying the following line into the project file, specifying any [published version](https://www.nuget.org/packages/Microlithix.AnsiParser#versions-body-tab) that you wish to use:
+
+```xml
+<PackageReference Include="Microlithix.AnsiParser" Version="1.0.0" />
+```
+
+If you have any problems, verify that [NuGet.org](https://www.nuget.org/) has been configured as a package source by typing `dotnet nuget list source`.
 
 Most of the functionality of the package is available through two classes named <xref:Microlithix.Text.Ansi.AnsiStreamParser> and <xref:Microlithix.Text.Ansi.AnsiStringParser>. The former parses a single character on each invocation and returns parsed elements on the fly via a callback function. The latter parses an entire string on each invocation and returns the result as a list of parsed elements found in the string. Both ultimately provide the same functionality, so it is up to you to decide which is best suited for your application.
 
