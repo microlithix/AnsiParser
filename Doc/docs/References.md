@@ -2,7 +2,7 @@
 
 This page contains a list of references cited elsewhere in the documentation.
 
-## External References
+## Specifications
 
 ### ANSI X3.64
 
@@ -30,7 +30,15 @@ Excerpts from ECMA-48 have been included in this documention under ECMA Internat
 
 "ITU-T Recommendation T.416 (03/93) - Information Technology - Open Document Architecture (ODA) and Interchange Format: Character Content Architectures", International Telecommunication Union, 1994.
 
-### Similar projects
+## Other References
+
+[1] Williams, Paul Flo. "A parser for DEC's ANSI-compatible video terminals." VT100.net. <https://vt100.net/emu/dec_ansi_parser>.
+
+- The development of AnsiParser was inspired by this work, which describes a state machine implementation for DEC VT500-Series video terminals and provides a very helpful state diagram. While DEC VT500-Series terminals extend the ECMA-48 specification in some areas and fall short of a full implementation in other areas, AnsiParser provides a more complete and strict implemention of the specification and does not attempt to go beyond it. However, AnsiParser could easily be extended to cover the full DEC VT500-Series implementation by adding another processing layer, primarily to handle the DEC processing of Device Control Strings if that functionality is required.
+
+[2] Haberman, Joshua. "VTParse - an implementation of Paul Williams' DEC compatible state machine parser". <https://github.com/haberman/vtparse>
+
+## Other Related Projects
 
 - <https://github.com/taterbase/libvt100>
 - <https://github.com/paultag/libansiescape>
