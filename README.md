@@ -14,6 +14,8 @@ This work was inspired by Paul Flo Williams' [state machine description](https:/
 
 [NuGet Package](https://www.nuget.org/packages/Microlithix.AnsiParser/)
 
+[Home Page](https://microlithix.com)
+
 [License](https://github.com/microlithix/AnsiParser/blob/main/LICENSE.md)
 
 ## Getting Started

@@ -4,3 +4,7 @@
   href: api/
 - name: Repository
   href: https://github.com/microlithix/AnsiParser
+- name: Package
+  href: https://www.nuget.org/packages/Microlithix.AnsiParser/
+- name: Microlithix
+  href: https://microlithix.com
